@@ -1,4 +1,26 @@
-setupDB.sql
-go.mod
+# Ignore binary executables
+*.exe
+*.dll
+*.so
+*.dylib
+*.out
+
+# Ignore temporary files and logs
+*.log
+*.tmp
+
+# Ignore Go dependencies (if using Go modules)
 go.sum
-.vscode
+
+# Ignore local database setup scripts (if you don’t want to track changes to setupDB.sql)
+setupDB.sql
+
+# Ignore VS Code settings folder
+.vscode/
+
+# Ignore system files (macOS and Linux)
+.DS_Store
+*.swp
+
+# Ignore sensitive environment variables
+.env
