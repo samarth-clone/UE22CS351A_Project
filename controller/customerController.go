@@ -3,7 +3,6 @@ package controller
 import (
 	"UE22CS351A_Project/models"
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 	"strconv"
@@ -25,7 +24,6 @@ func GetAllCustomers(w http.ResponseWriter, r *http.Request) {
 
 func GetCustomerByID(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
-	fmt.Println(vars)
 	id, err := strconv.Atoi(vars["id"])
 	if err != nil {
 		http.Error(w, "invalid ID", http.StatusInternalServerError)
@@ -54,7 +52,6 @@ func CreateCustomer(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	defer r.Body.Close()
-
 	if err := json.Unmarshal(body, &tempCustomer); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
@@ -75,7 +72,6 @@ func CreateCustomer(w http.ResponseWriter, r *http.Request) {
 		Password:   tempCustomer.Password,
 		Contact:    tempCustomer.Contact,
 	}
-
 	_, err = models.CreateCustomer(customer)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -98,6 +94,33 @@ func DeleteCustomer(w http.ResponseWriter, r *http.Request) {
 
 	}
 
-	w.WriteHeader(http.StatusNoContent)
+}
 
+func LoginCustomer(w http.ResponseWriter, r *http.Request) {
+
+	var loginDetails struct {
+		Email    string `json:"email"`
+		Password string `json:"password"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&loginDetails); err != nil {
+		http.Error(w, "Invalid request payload", http.StatusBadRequest)
+		return
+	}
+	defer r.Body.Close()
+
+	id, err := models.LoginCustomer(loginDetails.Email, loginDetails.Password)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusUnauthorized)
+		return
+	}
+
+	response := struct {
+		CustomerID int `json:"customer_id"`
+	}{
+		CustomerID: id,
+	}
+
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(response)
 }

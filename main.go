@@ -30,5 +30,6 @@ func main() {
 
 	routes.RegisterRouter(r)
 
+	http.Handle("/", r)
 	http.ListenAndServe(":8080", r)
 }

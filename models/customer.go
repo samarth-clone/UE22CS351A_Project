@@ -2,28 +2,10 @@ package models
 
 import (
 	"database/sql"
+	"errors"
+	"log"
 	"time"
 )
-
-type Customer struct {
-	CustomerID int       `json:"customer_id"`
-	FirstName  string    `json:"first_name"`
-	LastName   string    `json:"last_name"`
-	DOB        time.Time `json:"dob"`
-	Email      string    `json:"email"`
-	Password   string    `json:"-"`
-	Contact    string    `json:"contact"`
-}
-
-type TempCustomer struct {
-	CustomerID int    `json:"customer_id"`
-	FirstName  string `json:"first_name"`
-	LastName   string `json:"last_name"`
-	DOB        string `json:"dob"`
-	Email      string `json:"email"`
-	Password   string `json:"-"`
-	Contact    string `json:"contact"`
-}
 
 func GetAllCustomers() ([]Customer, error) {
 	var customers []Customer
@@ -72,18 +54,47 @@ func GetCustomerByID(customerID int) (Customer, error) {
 }
 
 func CreateCustomer(customer Customer) (int, error) {
-
-	result, err := db.Exec("INSERT INTO Customer (FirstName, LastName, DOB, Email, Password, Contact) VALUES (?, ?, ?, ?, ?, ?)",
-		customer.FirstName, customer.LastName, customer.DOB, customer.Email, customer.Password, customer.Contact)
-	if err != nil {
+	var existingCustomerID int
+	err := db.QueryRow("SELECT CustomerID FROM Customer WHERE Email = ?", customer.Email).Scan(&existingCustomerID)
+	var id int
+	if err != nil && err != sql.ErrNoRows {
 		return 0, err
 	}
 
-	id, err := result.LastInsertId()
+	if err == sql.ErrNoRows {
+		log.Println(customer.Password)
+		result, err := db.Exec("INSERT INTO Customer (FirstName, LastName, DOB, Email, Password, Contact) VALUES (?, ?, ?, ?, ?, ?)",
+			customer.FirstName, customer.LastName, customer.DOB, customer.Email, customer.Password, customer.Contact)
+		if err != nil {
+			log.Printf("Error inserting customer: %v", err)
+			return 0, err
+		}
+
+		id, _ := result.LastInsertId()
+		log.Println("New customer inserted with id: ", id)
+	} else {
+		return 0, err
+	}
 	return int(id), err
 }
 
 func DeleteCustomer(id int) error {
 	_, err := db.Exec("DELETE FROM Customer WHERE CustomerID = ?", id)
 	return err
+}
+
+func LoginCustomer(email, password string) (int, error) {
+	query := "SELECT CustomerID FROM Customer WHERE Email = ? AND Password = ?"
+	row := db.QueryRow(query, email, password)
+	log.Println(email, password)
+	var customerID int
+	err := row.Scan(&customerID)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return 0, errors.New("invalid login credentials")
+		}
+		return 0, err
+	}
+
+	return customerID, nil
 }
