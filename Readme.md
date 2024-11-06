@@ -1,6 +1,6 @@
 # UE22CS351A_Project : E-Commerce Application
 
-**_Use the below command to replicate the db_** \
+**_Use the below command to replicate the db_** 
 ``` sql 
 mysql -u username -p < backup.sql
 ```
