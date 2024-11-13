@@ -63,6 +63,7 @@ func CreateCustomer(customer Customer) (int, error) {
 
 	if err == sql.ErrNoRows {
 		log.Println(customer.Password)
+		log.Println(customer)
 		result, err := db.Exec("INSERT INTO Customer (FirstName, LastName, DOB, Email, Password, Contact) VALUES (?, ?, ?, ?, ?, ?)",
 			customer.FirstName, customer.LastName, customer.DOB, customer.Email, customer.Password, customer.Contact)
 		if err != nil {
