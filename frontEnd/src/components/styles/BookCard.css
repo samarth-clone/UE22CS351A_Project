@@ -1,84 +1,102 @@
-/* Card container */
-.linker {
-    text-decoration: none;
-}
-.product-card {
-    width: 15vw;
-    height: 20vw;
-    margin-top: 1vw;
-    margin-left: 1vw;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s;
-    text-align: center;
-    font-family: Arial, sans-serif;
-    display:flex ;
-    flex-direction: column;
-    align-items: center;
-    align-content: center;
-    justify-content: center;
-    overflow: hidden;
+/* Container for the entire card */
+.book-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f7f1e3; /* Creamy, warm background */
+  border: 1px solid #d4a373; /* Warm brown border */
+  border-radius: 12px;
+  padding: 20px;
+  width: 300px;
+  margin: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Soft shadow */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  font-family: 'Georgia', serif; /* Classic font for rustic feel */
 }
 
-/* Card hover effect */
-.product-card:hover {
-    transform: scale(1.05);
+/* Hover effect with a subtle shadow */
+.book-card:hover {
+  transform: translateY(-3px); /* Slight lift */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Enhanced shadow */
 }
 
-/* Product image */
-.product-image {
-    width: 50%;
-    height: 40%;
-    height: auto;
-    display: block;
-    align-self: center;
+/* Header with product title */
+.card-header h3 {
+  font-size: 1.6rem;
+  color: #4e342e; /* Dark brown for rustic feel */
+  margin-bottom: 10px;
+  text-align: center;
+  font-weight: 600;
+  font-family: 'Georgia', serif; /* Adds to the rustic look */
 }
 
-/* Product details */
-.product-details {
-    padding: 15px;
-    height: 60%;
+/* Body text styles */
+.card-body {
+  text-align: center;
+  width: 100%;
 }
 
-/* Title */
-.product-title {
-    font-size: 1rem;
-    font-weight: bold;
-    color: #333;
-    margin: 10px 0;
+.description {
+  font-size: 1rem;
+  color: #6d4c41; /* Medium brown */
+  margin-bottom: 15px;
+  line-height: 1.5;
+  font-family: 'Georgia', serif;
 }
 
-/* Rating */
-.product-rating {
-    font-size: 0.85rem;
-    color: #f0a500;
-    margin-bottom: 10px;
+.price {
+  font-size: 1.25rem;
+  color: #3e2723; /* Darker brown for emphasis */
+  font-weight: 500;
+  margin-bottom: 10px;
 }
 
-/* Price */
-.product-price {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 15px;
+.rating {
+  font-size: 1rem;
+  color: #5d4037; /* Lighter warm brown */
+  margin-bottom: 20px;
 }
 
-/* Buy Now button */
-.buy-now {
-    display: inline-block;
-    padding: 10px 15px;
-    font-size: 0.9rem;
-    color: #fff;
-    background-color: #f0c14b;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.2s;
+/* Button container */
+.button-container {
+  display: flex;
+  gap: 10px;
 }
 
-.buy-now:hover {
-    background-color: #ddb347;
+/* Button styles with rustic colors */
+button.buy-now {
+  background-color: #8d6e63; /* Warm, muted brown */
+  color: #ffffff; /* Light text */
+  border: 1px solid #6d4c41; /* Dark brown border */
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
+button.buy-now:hover {
+  background-color: #5d4037; /* Darker rustic brown for hover */
+  transform: scale(1.05); /* Slightly larger on hover */
+}
+
+/* Error and loading messages */
+.error-message, .loading-message {
+  font-size: 1rem;
+  color: #c62828; /* Warm, rustic red for error */
+  text-align: center;
+  margin-top: 20px;
+}
+
+
+
+.book-card .product-image {
+    width: 100%; /* Make the image full-width */
+    height: auto; /* Maintain aspect ratio */
+    max-height: 150px; /* Optional: set a max height */
+    object-fit: cover; /* Adjust how the image fits within the div */
+    border-bottom: 1px solid #ddd; /* Optional: add a border below the image */
+  }
+  

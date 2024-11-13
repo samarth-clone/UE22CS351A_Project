@@ -12,9 +12,7 @@ import (
 
 func GetProducts(w http.ResponseWriter, r *http.Request) {
 	products, err := models.GetAllProducts()
-	log.Println("Ping")
 	if err != nil {
-		log.Println("Here Lmao")
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
@@ -46,7 +44,6 @@ func GetProductReview(w http.ResponseWriter, r *http.Request) {
 	log.Println("Ping", vars)
 	ProductID, err := strconv.Atoi(vars["id"])
 	if err != nil {
-		log.Println("Here Lmao2")
 
 		http.Error(w, "Invalid vendor ID", http.StatusBadRequest)
 		return
@@ -54,7 +51,6 @@ func GetProductReview(w http.ResponseWriter, r *http.Request) {
 
 	reviews, err := models.GetReviewsByProductID(ProductID)
 	if err != nil {
-		log.Println("Here Lmao3")
 
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
