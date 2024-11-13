@@ -226,12 +226,6 @@ CREATE TABLE `Customer` (
 -- Dumping data for table `Customer`
 --
 
-LOCK TABLES `Customer` WRITE;
-/*!40000 ALTER TABLE `Customer` DISABLE KEYS */;
-INSERT INTO `Customer` VALUES
-(11,'Jane','DDoe','1990-05-01','abc@abc.com','1234','123-456-7890');
-/*!40000 ALTER TABLE `Customer` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `CustomerPaymentInfo`

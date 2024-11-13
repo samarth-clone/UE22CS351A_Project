@@ -94,6 +94,12 @@ type Product struct {
 	ProductName string `json:"product_name"`
 	CategoryID  int    `json:"category_id"`
 }
+type productCard struct {
+	ProductID   int     `json:"product_id"`
+	ProductName string  `json:"product_name"`
+	Description string  `json:"description"`
+	Price       float64 `json:"price"`
+}
 
 type Review struct {
 	ReviewID         int    `json:"review_id"`
@@ -101,6 +107,7 @@ type Review struct {
 	Comment          string `json:"comment,omitempty"`
 	CustomerID       int    `json:"customer_id"`
 	OrderedProductID int    `json:"ordered_product_id"`
+	ProductName      string `json:"product_Name"`
 }
 
 type Courier struct {

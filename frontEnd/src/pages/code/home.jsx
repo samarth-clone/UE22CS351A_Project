@@ -2,7 +2,7 @@ import icon from '../../assets/icon.png';
 import '../styles/home.css'
 import BookCard from '../../components/component/BookCard.jsx';
 import { Link } from 'react-router-dom';
-function BasicExample() {
+function Home() {
   return (
     <>
         <div className="titleBar">
@@ -16,21 +16,12 @@ function BasicExample() {
             </Link>
         </div>
         <div className="items">
-          <BookCard/>
-          <BookCard/>
-          <BookCard/>
-          <BookCard/>
-          <BookCard/>
-          <BookCard/> 
-          <BookCard/>
-          <BookCard/>
-          <BookCard/>
-          <BookCard/>
-          <BookCard/>
-          <BookCard/>
+          <BookCard id={1}/>
+          <BookCard id={2}/>
+          
         </div>
     </>
   );
 }
 
-export default BasicExample;
+export default Home;
