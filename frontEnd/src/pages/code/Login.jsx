@@ -28,7 +28,7 @@ function Login() {
 
       if (response.ok) {
         // Redirect to home page if login is successful
-        window.location.href = `http://localhost:5173/:${email}`;
+        window.location.href = `http://localhost:5173/${email}`;
       } else {
         // Alert for login failure
         const errorText = await response.text();

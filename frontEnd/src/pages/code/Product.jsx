@@ -4,7 +4,7 @@ import '../styles/Product.css';
 import icon from '../../assets/icon.png';
 import ReviewList from '../../components/component/ReviwList.jsx';
 import ReviewBar from '../../components/component/Reviewbar.jsx';
-
+import TitleBar from '../../components/component/TitleBar.jsx';
 function Product() {
     // Get the `id` from the URL parameters
     const { id } = useParams();
@@ -13,6 +13,7 @@ function Product() {
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [quantity, setQuantity] = useState(0); // Track quantity
 
     // Fetch product data from the server
     useEffect(() => {
@@ -20,10 +21,10 @@ function Product() {
             try {
                 setLoading(true);
                 const response = await fetch(`http://localhost:8080/products/${id}`, {
-                  method: 'GET',
-                  headers: {
-                    'Content-Type': 'application/json',
-                  },
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
                 });
 
                 if (!response.ok) {
@@ -57,19 +58,26 @@ function Product() {
         return <div>Product not found</div>;
     }
 
+    // Handle Add to Cart button click
+    const handleAddToCart = () => {
+        if (quantity === 0) {
+            setQuantity(1); // Set initial quantity to 1 on first click
+        }
+    };
+
+    // Handle increment quantity
+    const incrementQuantity = () => {
+        setQuantity(prevQuantity => prevQuantity + 1);
+    };
+
+    // Handle decrement quantity
+    const decrementQuantity = () => {
+        setQuantity(prevQuantity => (prevQuantity > 1 ? prevQuantity - 1 : 0)); // Prevent quantity from going below 0
+    };
 
     return (
         <>
-            <div className="titleBar">
-                <img className="iconImage" src={icon} alt="Icon" />
-                <h1>Boogs and Pajes</h1>
-                <Link to="/login" className="login">
-                    Login
-                </Link>
-                <Link to="/signUp" className="signUp">
-                    Sign-Up
-                </Link>
-            </div>
+            <TitleBar />
 
             <div className="product_page">
                 <div className="product_left">
@@ -84,8 +92,20 @@ function Product() {
                         <span className="price">${product.price}</span>
                     </div>
 
-                    <button className="product_add_to_cart_btn">Add to Cart</button>
-                    <button className="product_buy_now_btn">Buy Now</button>
+                    {/* Render Add to Cart button */}
+                    <button className="product_add_to_cart_btn" onClick={handleAddToCart}>Add to Cart</button>
+
+                    {/* Quantity counter - displayed below Add to Cart button if quantity > 0 */}
+                    {quantity > 0 && (
+                        <>
+                        <div className="quantity_countera">
+                            <button onClick={decrementQuantity} className="quantity_btna">-</button>
+                            <span className="quantitya">{quantity}</span>
+                            <button onClick={incrementQuantity} className="quantity_btna">+</button>
+                        </div>
+                        <button className="confirmButton" onClick={confirmAddToCart}>Confirm</button>
+                        </>
+                    )}
 
                     <div className="product_description">
                         <h2>Product Details</h2>
@@ -96,8 +116,8 @@ function Product() {
             <div className="review_bar">
                 <ReviewBar productId={product.product_id} />
             </div>
-            <div className='review_list'>
-                <ReviewList productId={product.product_id}/>
+            <div className="review_list">
+                <ReviewList productId={product.product_id} />
             </div>
         </>
     );

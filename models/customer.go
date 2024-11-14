@@ -58,6 +58,7 @@ func CreateCustomer(customer Customer) (int, error) {
 	err := db.QueryRow("SELECT CustomerID FROM Customer WHERE Email = ?", customer.Email).Scan(&existingCustomerID)
 	var id int
 	if err != nil && err != sql.ErrNoRows {
+		log.Print("no line error")
 		return 0, err
 	}
 
@@ -71,7 +72,9 @@ func CreateCustomer(customer Customer) (int, error) {
 
 		id, _ := result.LastInsertId()
 		log.Println("New customer inserted with id: ", id)
+		err = nil
 	} else {
+		log.Print("Some error")
 		return 0, err
 	}
 	return int(id), err

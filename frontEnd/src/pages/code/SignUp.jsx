@@ -35,15 +35,30 @@ function SignUp() {
         },
         body: JSON.stringify(newUser),
       });
-      
-      if (response.ok) {
-        alert('Sign-up successful!');
-      } else {
+
+      if (!response.ok) {
         const errorText = await response.text();
-        alert(`Sign-up failed: ${errorText}`);
+        console.log(errorText)
+        if (errorText.startsWith('sql:')) {
+          alert('Sign-up successful')
+        }
+        else {
+          console.log("entered error 2")
+          alert('Error:', errorText)
+        }
+
+      } else {
+        alert('Sign-up successful!');
       }
     } catch (error) {
-      alert(`Sign-up failed: ${error.message}`);
+      console.log(error)
+      if (error == "sql: no rows in result set") {
+        alert('Sign-up successful')
+      }
+      else {
+        console.log("entered error 4")
+        alert('Error:', error)
+      }
     }
   };
 
