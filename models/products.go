@@ -308,5 +308,15 @@ func UpdateCartProductMinus(cartProductID int) error {
 // 	})
 // 	.catch(error => console.error("Error:", error));
 
-//get cart id for user id
+// get cart id for user id
+func GetCartID(customerID int) (int, error) {
+	query := `SELECT CartID FROM cart WHERE CustomerID = ?;`
+	row := db.QueryRow(query, customerID)
+	var cartID int
+	if err := row.Scan(&cartID); err != nil {
+		return 0, err
+	}
+	return cartID, nil
+}
+
 //delete cart for user id
