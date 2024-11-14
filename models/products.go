@@ -320,3 +320,12 @@ func GetCartID(customerID int) (int, error) {
 }
 
 //delete cart for user id
+
+func DeleteCart(cartID int) error {
+	query := `DELETE FROM cartproduct WHERE CartID = ?;`
+	_, err := db.Exec(query, cartID)
+	if err != nil {
+		return err
+	}
+	return nil
+}

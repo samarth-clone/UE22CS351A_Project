@@ -245,3 +245,20 @@ func GetCartID(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(response)
 }
+
+func DeleteCart(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	cartID, err := strconv.Atoi(vars["id"])
+	if err != nil {
+		http.Error(w, "Invalid cart ID", http.StatusBadRequest)
+		return
+	}
+
+	err = models.DeleteCart(cartID)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusNoContent)
+}
