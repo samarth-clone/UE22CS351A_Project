@@ -10,7 +10,7 @@ func RegisterRouter(r *mux.Router) {
 
 	//Routes for customers
 	r.HandleFunc("/customers", controller.GetAllCustomers).Methods("GET")
-	r.HandleFunc("/customers/{id}", controller.GetCustomerByID).Methods("GET")
+	r.HandleFunc("/customers/{email}", controller.GetCustomerByEmail).Methods("GET")
 	r.HandleFunc("/customers", controller.CreateCustomer).Methods("POST")
 	r.HandleFunc("/customers/{id}", controller.DeleteCustomer).Methods("DELETE")
 	r.HandleFunc("/customers/login", controller.LoginCustomer).Methods("POST")

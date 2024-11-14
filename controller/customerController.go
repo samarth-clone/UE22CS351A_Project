@@ -4,6 +4,7 @@ import (
 	"UE22CS351A_Project/models"
 	"encoding/json"
 	"io"
+	"log"
 	"net/http"
 	"strconv"
 	"time"
@@ -22,15 +23,16 @@ func GetAllCustomers(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(customers)
 }
 
-func GetCustomerByID(w http.ResponseWriter, r *http.Request) {
+func GetCustomerByEmail(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
-	id, err := strconv.Atoi(vars["id"])
-	if err != nil {
-		http.Error(w, "invalid ID", http.StatusInternalServerError)
+	log.Print(vars)
+	email := vars["email"]
+	if email == "" {
+		http.Error(w, "invalid email", http.StatusInternalServerError)
 
 	}
 
-	customer, err := models.GetCustomerByID(id)
+	customer, err := models.GetCustomerByEmail(email)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
