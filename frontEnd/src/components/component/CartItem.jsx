@@ -7,11 +7,11 @@ const CartItem = ({
 }) => {
   return (
     <div className="cart_item" key={item.id}>
-      <img src={item.image} alt={item.name} className="cart_item_image" />
+      <img src='https://static.vecteezy.com/system/resources/previews/006/298/276/non_2x/gear-smart-eps-icon-digital-tech-business-logo-free-vector.jpg' alt={item.name} className="cart_item_image" />
       
       <div className="cart_item_info">
-        <h3>{item.name}</h3>
-        <p>${item.price.toFixed(2)}</p>
+        <h3>{item.product_name}</h3>
+        <p>₹{item.price.toFixed(2)}</p>
       </div>
 
       <div className="cart_item_quantity">
@@ -31,7 +31,7 @@ const CartItem = ({
       </div>
 
       <div className="cart_item_total">
-        <p>${(item.price * item.quantity).toFixed(2)}</p>
+        <p>₹{(item.price * item.quantity).toFixed(2)}</p>
       </div>
 
       <button

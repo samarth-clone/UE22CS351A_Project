@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom';
 import icon from '../../assets/icon.png';
 import profileicon from '../../assets/profileIcon.png';
-
+import carticon from '../../assets/cartIcon.jpg';
 import '../styles/TitleBar.css'
 export default function TitleBar() {
     var { username } = useParams();
@@ -59,7 +59,9 @@ export default function TitleBar() {
                         <Link to={username ? `/${username}` : '/'} className='linkHome'>
                         <h1>Boogs and Pajes</h1>
                         </Link>
-                        
+                        <Link to={username ? `/${username}/cart` : '/cart'}>
+                        <img className='cartIcon' src={carticon}></img>
+                        </Link>
                         <img className='profileIcon' src={profileicon}></img>
 
                     </>

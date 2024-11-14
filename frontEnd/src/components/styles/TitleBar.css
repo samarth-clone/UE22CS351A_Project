@@ -72,7 +72,21 @@
     position: absolute;
     right: 2vw;
 }
+.cartIcon {
+    width: 5vw; /* Adjust size as needed */
+    height: 5vw;
+    border-radius: 50%; 
+    object-fit: cover; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    right: 10vw;
+    bottom: 1vw;
+}
 .profileIcon:hover{
+    width: 5.5vw; /* Adjust size as needed */
+    height: 5.5vw;
+}
+.cartIcon:hover{
     width: 5.5vw; /* Adjust size as needed */
     height: 5.5vw;
 }

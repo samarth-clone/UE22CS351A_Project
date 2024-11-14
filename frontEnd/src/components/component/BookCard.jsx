@@ -94,7 +94,7 @@ const BookCard = ({ id }) => {
       </div>
       <div className="card-body">
         <p className="description">{product.description}</p>
-        <p className="price">${product.price}</p>
+        <p className="price">₹{product.price}</p>
         <p className="rating">Average Rating: {averageRating || "Loading..."}</p>
       </div>
       <div className="button-container" style={{ display: 'flex', justifyContent: 'center' }}>

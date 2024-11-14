@@ -188,7 +188,7 @@ function Product() {
                         <h1 className="product_title">{product.product_name}</h1>
 
                         <div className="product_price">
-                            <span className="price">${product.price}</span>
+                            <span className="price">₹{product.price}</span>
                         </div>
 
                         
