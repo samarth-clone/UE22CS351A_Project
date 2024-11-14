@@ -106,6 +106,7 @@ type ProductCart struct {
 	Price           float64 `json:"price"`
 	Quantity        int     `json:"quantity"`
 	VendorProductID int     `json:"vendor_product_id"`
+	CartProductID   int     `json:"cart_product_id"`
 }
 
 type Review struct {

@@ -156,3 +156,72 @@ func GetCartForCustomer(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(cartProducts)
 }
+
+func DeleteCartProduct(w http.ResponseWriter, r *http.Request) {
+
+	vars := mux.Vars(r)
+	log.Print(vars)
+	cartProductID, err := strconv.Atoi(vars["id"])
+	if err != nil {
+		http.Error(w, "Invalid cart product ID", http.StatusBadRequest)
+		return
+	}
+
+	err = models.DeleteCartProduct(cartProductID)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusNoContent)
+}
+
+func UpdateCartProductPlus(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	log.Print(vars)
+	cartProductID, err := strconv.Atoi(vars["id"])
+	if err != nil {
+		http.Error(w, "Invalid cart product ID", http.StatusBadRequest)
+		return
+	}
+
+	// Assign the extracted cartProductID from URL to the struct
+
+	log.Print(cartProductID)
+	// Call the model function to update the cart product in the database
+	err = models.UpdateCartProductPlus(cartProductID)
+	if err != nil {
+		http.Error(w, "Failed to update cart product: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	// Set Content-Type to application/json and respond with a status code
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(map[string]string{"message": "Cart product updated successfully"})
+}
+
+func UpdateCartProductMinus(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	log.Print(vars)
+	cartProductID, err := strconv.Atoi(vars["id"])
+	if err != nil {
+		http.Error(w, "Invalid cart product ID", http.StatusBadRequest)
+		return
+	}
+
+	// Assign the extracted cartProductID from URL to the struct
+
+	log.Print(cartProductID)
+	// Call the model function to update the cart product in the database
+	err = models.UpdateCartProductMinus(cartProductID)
+	if err != nil {
+		http.Error(w, "Failed to update cart product: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	// Set Content-Type to application/json and respond with a status code
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(map[string]string{"message": "Cart product updated successfully"})
+}

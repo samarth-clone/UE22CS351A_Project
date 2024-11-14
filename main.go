@@ -36,9 +36,9 @@ func main() {
 
 	// Define allowed origins and wrap the router with CORS middleware
 	corsHandler := handlers.CORS(
-		handlers.AllowedOrigins([]string{"http://localhost:5173"}),        // Allow only this origin
-		handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE"}), // Allow specific methods
-		handlers.AllowedHeaders([]string{"Content-Type"}),                 // Allow headers such as "Content-Type"
+		handlers.AllowedOrigins([]string{"http://localhost:5173"}),                 // Allow only this origin
+		handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE", "PATCH"}), // Allow specific methods
+		handlers.AllowedHeaders([]string{"Content-Type"}),                          // Allow headers such as "Content-Type"
 	)
 
 	// Start the server with CORS-enabled router

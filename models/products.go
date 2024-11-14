@@ -184,7 +184,8 @@ func GetCartForCustomer(customerID int) ([]ProductCart, error) {
     cp.Quantity,
     vp.Price,
     p.ProductID,
-	vp.VendorProductID
+	vp.VendorProductID,
+	cp.CartProductID
 	FROM 
     cart c
 	JOIN 
@@ -205,7 +206,7 @@ func GetCartForCustomer(customerID int) ([]ProductCart, error) {
 	var products []ProductCart
 	for rows.Next() {
 		var product ProductCart
-		if err := rows.Scan(&product.ProductName, &product.Quantity, &product.Price, &product.ProductID, &product.VendorProductID); err != nil {
+		if err := rows.Scan(&product.ProductName, &product.Quantity, &product.Price, &product.ProductID, &product.VendorProductID, &product.CartProductID); err != nil {
 			return nil, err
 		}
 		products = append(products, product)
@@ -217,3 +218,95 @@ func GetCartForCustomer(customerID int) ([]ProductCart, error) {
 
 	return products, nil
 }
+
+func DeleteCartProduct(cartProductID int) error {
+	log.Print(cartProductID)
+	query := `DELETE FROM cartproduct WHERE CartProductID = ?;`
+	_, err := db.Exec(query, cartProductID)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// fetch('http://localhost:8080/cart/deleteCartProduct/1', {
+// 	method: 'DELETE',
+//   })
+// 	.then(response => {
+// 	  if (response.ok) {
+// 		console.log("Item deleted successfully");
+// 	  } else {
+// 		console.error("Failed to delete item");
+// 	  }
+// 	})
+// 	.catch(error => console.error("Error:", error));
+
+func UpdateCartProductPlus(cartProductID int) error {
+	query := `
+        UPDATE cartproduct 
+        SET Quantity = Quantity + 1 
+        WHERE CartProductID = ?;
+    `
+
+	_, err := db.Exec(query, cartProductID)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// fetch('http://localhost:8080/cart/updateCartProductPlus/39', {
+// 	method: 'PATCH',
+// 	headers: {
+// 	  'Content-Type': 'application/json',
+// 	},
+// 	body: JSON.stringify({
+// 	  // No need to send Quantity, since the backend will increment it
+// 	}),
+//   })
+// 	.then(response => {
+// 	  if (response.ok) {
+// 		console.log("Quantity incremented successfully");
+// 	  } else {
+// 		console.error("Failed to update quantity");
+// 	  }
+// 	})
+// 	.catch(error => console.error("Error:", error));
+
+func UpdateCartProductMinus(cartProductID int) error {
+	query := `
+        UPDATE cartproduct 
+        SET Quantity = Quantity - 1 
+        WHERE CartProductID = ?;
+    `
+
+	_, err := db.Exec(query, cartProductID)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// fetch('http://localhost:8080/cart/updateCartProductMinus/39', {
+// 	method: 'PATCH',
+// 	headers: {
+// 	  'Content-Type': 'application/json',
+// 	},
+// 	body: JSON.stringify({
+// 	  // No need to send Quantity, since the backend will increment it
+// 	}),
+//   })
+// 	.then(response => {
+// 	  if (response.ok) {
+// 		console.log("Quantity incremented successfully");
+// 	  } else {
+// 		console.error("Failed to update quantity");
+// 	  }
+// 	})
+// 	.catch(error => console.error("Error:", error));
+
+//get cart id for user id
+//delete cart for user id
