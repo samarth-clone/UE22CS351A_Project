@@ -74,12 +74,13 @@ function Product() {
             const emailMatch = url.match(/\/([^/]+)\/product\//);
             const email = emailMatch[1];
             const targetUrl = email.includes('@')
+            const customerID = await getCustomerIDByEmail(email);
             if (!targetUrl) {
                 alert("Log in to add to cart.");
                 return
             }
             setQuantity(1);
-
+            var response = await awaitfetch(`http://localhost:8080/cart/getCartID/${customerID}`)
 
 
 
