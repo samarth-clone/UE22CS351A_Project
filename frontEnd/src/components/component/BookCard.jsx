@@ -61,23 +61,30 @@ const BookCard = ({ id }) => {
       });
   }, [id]);
 
-  
+
 
   if (error) return <div className="error-message">{error}</div>;
   if (!product) return <div className="loading-message">Loading...</div>;
 
   return (
-    <div 
-      className="book-card" 
+    <div
+      className="book-card"
       onClick={() => {
-        const email = window.location.pathname.split('/')[1];  // Extract the email from the current URL
-        navigate(`/${email}/product/${id}`);  // Include the email in the new URL
+        const pathParts = window.location.pathname.split('/');
+        const email = pathParts[1];  // Extract the email from the current URL
+
+        // Check if email contains "@" to confirm it's an email format, otherwise exclude it
+        const targetUrl = email.includes('@')
+          ? `/${email}/product/${id}`
+          : `/product/${ id }`;
+
+        navigate(targetUrl);
       }}
-            style={{ cursor: 'pointer' }}
+      style={{ cursor: 'pointer' }}
     >
       {/* Add the generic image at the top */}
-      <img 
-        src="https://static.vecteezy.com/system/resources/previews/006/298/276/non_2x/gear-smart-eps-icon-digital-tech-business-logo-free-vector.jpg" 
+      <img
+        src="https://static.vecteezy.com/system/resources/previews/006/298/276/non_2x/gear-smart-eps-icon-digital-tech-business-logo-free-vector.jpg"
         alt="Product"
         className="product-image"
       />

@@ -64,7 +64,9 @@ function Product() {
     // Handle Add to Cart button click
     const handleAddToCart = () => {
         if (quantity === 0) {
-            setQuantity(1); // Set initial quantity to 1 on first click
+            setQuantity(1);
+
+            
         }
     };
 
@@ -80,7 +82,6 @@ function Product() {
 
     return (
         <>
-            <TitleBar />
             <TitleBar />
 
             <div className="product_page">
