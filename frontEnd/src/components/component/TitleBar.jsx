@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom';
 import icon from '../../assets/icon.png';
 import profileicon from '../../assets/profileIcon.png';
+
 import '../styles/TitleBar.css'
 export default function TitleBar() {
     var { username } = useParams();
@@ -41,7 +42,9 @@ export default function TitleBar() {
                 (
                     <>
                         <img className='iconImage' src={icon}></img>
-                        
+                        <Link to={username ? `/${username}` : '/'} className='linkHome'>
+                        <h1>Boogs and Pajes</h1>
+                        </Link>
                         <Link to="/login" className="login">
                             Login
                         </Link>
@@ -52,11 +55,12 @@ export default function TitleBar() {
                     </>
                 ) : (
                     <>
-                       <img className='iconImage' src={icon}></img>
-                       <Link to={username ? `/${username}` : '/'} className='linkHome'>
+                        <img className='iconImage' src={icon}></img>
+                        <Link to={username ? `/${username}` : '/'} className='linkHome'>
                         <h1>Boogs and Pajes</h1>
                         </Link>
-                       <img className='profileIcon' src={profileicon}></img>
+                        
+                        <img className='profileIcon' src={profileicon}></img>
 
                     </>
                 )}
