@@ -61,5 +61,6 @@
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
-    margin-left: 1vw;
+    margin-left: 2.5vw;
+    margin-right: 2.5vw;
 }

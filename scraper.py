@@ -1,6 +1,76 @@
+import os
+import shutil
+import time
+from icrawler.builtin import GoogleImageCrawler
 import requests
-from bs4 import BeautifulSoup
-import webbrowser
+
+class ImGen:
+    def __init__(self, root_dir='images'):
+        self.gc = GoogleImageCrawler(
+            feeder_threads=1,
+            parser_threads=1,
+            downloader_threads=1,
+            storage={'root_dir': root_dir}
+        )
+
+    def gen_image(self, prompt: str, product_id: int) -> None:
+        print(f"Generating image for: {prompt} with product ID: {product_id}")
+        # Crawl the image and download it with a color filter
+        self.gc.crawl(
+            keyword=prompt,
+            max_num=1  # Download 1 image per search
+        )
+
+        # Introduce a small delay to avoid overwhelming the server
+        time.sleep(2)  # 2 seconds delay (can be adjusted based on your needs)
+
+        # After crawling, move and rename the image
+        self.move_image_to_product_folder(product_id)
+
+    def move_image_to_product_folder(self, product_id: int):
+        # Check the folder where the image is stored
+        downloaded_folder = f'images/{product_id}'
+
+        # Ensure the folder is created if it's missing
+        if not os.path.exists(downloaded_folder):
+            os.makedirs(downloaded_folder)
+
+        # The downloaded image should be stored in a specific folder with a name like 00000001.jpg
+        # Check that the folder exists and contains the image
+        product_images_folder = 'product_images'  # The folder where images are temporarily stored
+        if os.path.exists(product_images_folder):
+            files = os.listdir(product_images_folder)
+            print(f"Files in folder {product_images_folder}: {files}")
+
+            if files:
+                # Assuming the first image downloaded is the one we want to rename
+                image_file = os.path.join(product_images_folder, files[0])  # This might be '00000001.jpg' or similar
+                print(f"Found image: {image_file}")
+
+                if os.path.exists(image_file):
+                    new_image_path = f'{downloaded_folder}/{product_id}.jpg'  # Save image as product_id.jpg
+                    shutil.move(image_file, new_image_path)  # Move the file to the correct folder
+                    print(f"Image moved to: {new_image_path}")
+
+                    # Optionally, remove all other images from the product_images folder
+                    self.cleanup_product_images_folder()
+                else:
+                    print(f"Image file not found: {image_file}")
+            else:
+                print(f"No images found in folder: {product_images_folder}")
+        else:
+            print(f"Folder '{product_images_folder}' does not exist.")
+
+
+    def cleanup_product_images_folder(self):
+        # Clean up by removing all files from 'product_images' folder after the move
+        product_images_folder = 'product_images'
+        for file_name in os.listdir(product_images_folder):
+            file_path = os.path.join(product_images_folder, file_name)
+            if os.path.isfile(file_path):
+                os.remove(file_path)
+                print(f"Deleted: {file_path}")
+
 
 # Function to fetch product data from your API
 def fetch_product_data(url):
@@ -8,51 +78,38 @@ def fetch_product_data(url):
     response.raise_for_status()  # Raise an error if the request fails
     return response.json()
 
-# Function to search Google Images using the product name
-def fetch_image_url(query):
-    search_url = "https://www.google.com/search?hl=en&tbm=isch&q=" + query
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
-    }
+# Function to enrich products with images
+def enrich_products_with_images(products):
+    # Initialize the image generator class
+    imgen = ImGen(root_dir='product_images')
 
-    response = requests.get(search_url, headers=headers)
-    response.raise_for_status()  # Raise an error if the request fails
+    for product in products:
+        product_name = product["product_name"]
+        product_id = product["product_id"]
+        print(f"Processing product: {product_name} (ID: {product_id})")
 
-    # Parse the HTML content
-    soup = BeautifulSoup(response.text, "html.parser")
+        # Generate and download the image for the product name and product ID
+        imgen.gen_image(product_name, product_id)
+        
+        # Optionally, you can update the product with the image path or URL
+        product['image_path'] = os.path.join('images', f'{product_id}/{product_id}.jpg')
 
-    # Find all the image elements
-    img_tags = soup.find_all("img")
-    if len(img_tags) > 1:
-        # The second image tag usually contains the image we want
-        return img_tags[1].get("src")  # The src attribute contains the image URL
-    return None
+    return products
 
-# Function to fetch the first product, search for its image, and open the image
-def fetch_first_product_and_image():
+# Main function to orchestrate the workflow
+def main():
     product_url = "http://localhost:8080/products"  # URL to fetch product data
     try:
         products = fetch_product_data(product_url)
+        enriched_products = enrich_products_with_images(products)
         
-        # Get the first product from the list
-        first_product = products[0]
-        product_name = first_product["product_name"]
-        
-        print(f"Searching for image for: {product_name}")
-        
-        # Search for the image
-        image_url = fetch_image_url(product_name)
-        
-        if image_url:
-            print(f"Found image: {image_url}")
-            # Open the image URL in the default web browser
-            webbrowser.open(image_url)
-        else:
-            print("No image found for this product.")
-        
+        print("\nEnriched Product Data with Images:")
+        for product in enriched_products:
+            print(f"Product: {product['product_name']} (ID: {product['product_id']}), Image saved at: {product['image_path']}")
+    
     except Exception as e:
         print(f"Error: {e}")
 
 # Run the script
 if __name__ == "__main__":
-    fetch_first_product_and_image()
+    main()

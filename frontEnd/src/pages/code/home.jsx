@@ -3,11 +3,7 @@ import icon from '../../assets/icon.png';
 import '../styles/home.css';
 import BookCard from '../../components/component/BookCard.jsx';
 import { Link } from 'react-router-dom';
-<<<<<<< HEAD
-
-=======
 import TitleBar from '../../components/component/TitleBar.jsx';
->>>>>>> 0c97f2a8cb29fcf68d539ede3e5974b329161290
 function Home() {
   const [products, setProducts] = useState([]); // State to store products
   const [error, setError] = useState(null); // State to store error message
@@ -36,17 +32,8 @@ function Home() {
 
   return (
     <>
-<<<<<<< HEAD
-      <div className="titleBar">
-        <img className="iconImage" src={icon} alt="Boogs and Pajes Logo" />
-        <h1>Boogs and Pajes</h1>
-        <Link to="/login" className="login">
-          Login
-        </Link>
-        <Link to="/signUp" className="signUp">
-          Sign-Up
-        </Link>
-      </div>
+      <TitleBar></TitleBar>
+       
 
       <div className="items">
         {error ? (
@@ -55,16 +42,8 @@ function Home() {
           products.map((product) => (
             <BookCard key={product.product_id} id={product.product_id} />
           ))
-        )}
-      </div>
-=======
-        <TitleBar></TitleBar>
-        <div className="items">
-          <BookCard id={1}/>
-          <BookCard id={2}/>
-          
-        </div>
->>>>>>> 0c97f2a8cb29fcf68d539ede3e5974b329161290
+        )}       
+    </div>
     </>
   );
 }
