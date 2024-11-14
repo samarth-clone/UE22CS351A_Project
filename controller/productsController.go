@@ -51,11 +51,10 @@ func GetProductReview(w http.ResponseWriter, r *http.Request) {
 
 	reviews, err := models.GetReviewsByProductID(ProductID)
 	if err != nil {
-
+		log.Println(err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(reviews)
 }
