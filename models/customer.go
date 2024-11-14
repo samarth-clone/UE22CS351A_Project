@@ -88,7 +88,6 @@ func DeleteCustomer(id int) error {
 func LoginCustomer(email, password string) (int, error) {
 	query := "SELECT CustomerID FROM Customer WHERE Email = ? AND Password = ?"
 	row := db.QueryRow(query, email, password)
-	log.Println(email, password)
 	var customerID int
 	err := row.Scan(&customerID)
 	if err != nil {

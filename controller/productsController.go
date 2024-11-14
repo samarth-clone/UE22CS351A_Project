@@ -30,7 +30,6 @@ func GetProductByID(w http.ResponseWriter, r *http.Request) {
 	}
 
 	product, vendorproductID, err := models.GetProductByID(ProductID)
-	log.Println(product)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -102,7 +101,6 @@ func CreateCart(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	log.Println(cart)
 
 	cartID, err := models.CreateCart(cart)
 	if err != nil {
@@ -146,7 +144,6 @@ func GetCartForCustomer(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	log.Print(customerID)
 	cartProducts, err := models.GetCartForCustomer(customerID)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -160,7 +157,6 @@ func GetCartForCustomer(w http.ResponseWriter, r *http.Request) {
 func DeleteCartProduct(w http.ResponseWriter, r *http.Request) {
 
 	vars := mux.Vars(r)
-	log.Print(vars)
 	cartProductID, err := strconv.Atoi(vars["id"])
 	if err != nil {
 		http.Error(w, "Invalid cart product ID", http.StatusBadRequest)
@@ -187,7 +183,6 @@ func UpdateCartProductPlus(w http.ResponseWriter, r *http.Request) {
 
 	// Assign the extracted cartProductID from URL to the struct
 
-	log.Print(cartProductID)
 	// Call the model function to update the cart product in the database
 	err = models.UpdateCartProductPlus(cartProductID)
 	if err != nil {

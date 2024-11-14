@@ -40,6 +40,7 @@ function SignUp() {
         const errorText = await response.text();
         console.log(errorText)
         if (errorText.startsWith('sql:')) {
+          window.location.href = '/login';
           alert('Sign-up successful')
         }
         else {
@@ -48,11 +49,13 @@ function SignUp() {
         }
 
       } else {
+        window.location.href = '/login';
         alert('Sign-up successful!');
       }
     } catch (error) {
       console.log(error)
       if (error == "sql: no rows in result set") {
+        window.location.href = '/login';
         alert('Sign-up successful')
       }
       else {

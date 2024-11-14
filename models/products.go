@@ -55,7 +55,6 @@ func GetProductByID(productID int) (ProductCard, int, error) {
 	`
 
 	row := db.QueryRow(query, productID)
-	log.Print(row)
 	var VendorProductID int
 	var product ProductCard
 	if err := row.Scan(&product.ProductID, &product.ProductName, &product.Description, &product.Price, &VendorProductID); err != nil {
