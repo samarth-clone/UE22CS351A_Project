@@ -40,5 +40,5 @@ func RegisterRouter(r *mux.Router) {
 	r.HandleFunc("/cart/deleteCart/{id}", controller.DeleteCart).Methods("DELETE")
 
 	r.HandleFunc("/checkout/recordTransaction", controller.RecordTransaction).Methods("POST")
-
+	r.HandleFunc("/checkout/getTransactions/{customerId}", controller.GetCustomerTransactions).Methods("GET")
 }
