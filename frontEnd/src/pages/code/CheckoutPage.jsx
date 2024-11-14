@@ -1,37 +1,65 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../styles/CheckoutPage.css'; // Import styling for the checkout page
 import icon from '../../assets/icon.png';
 function CheckoutPage() {
-  // Sample data for cart items (you can replace this with your actual cart state)
-  const [cartItems] = useState([
-    {
-      id: 1,
-      name: "The Art of Coding",
-      price: 19.99,
-      quantity: 1,
-    },
-    {
-      id: 2,
-      name: "Advanced JavaScript",
-      price: 29.99,
-      quantity: 2,
-    },
-    {
-      id: 3,
-      name: "Learn React",
-      price: 25.99,
-      quantity: 1,
-    },
-  ]);
-
   // Payment method state
   const [paymentMethod, setPaymentMethod] = useState('');
+  const [cartItems, setCartItems] = useState([]);
+  const [customerID, setCustomerID] = useState(null);
+  const [userEmail, setUserEmail] = useState(null);
   const [formData, setFormData] = useState({
     cardNumber: '',
     cardExpiry: '',
     cardCVV: '',
     upiId: '',
   });
+
+
+  const getCustomerIDByEmail = async (email) => {
+    const response = await fetch(`http://localhost:8080/customers/${email}`);
+    const data = await response.json();
+    return data.customer_id;
+  };
+
+
+  useEffect(() => {
+    const fetchCustomerID = async () => {
+      const url = window.location.href;
+      const emailMatch = url.match(/\/([^/]+)\/checkOut/);
+      if (!emailMatch || !emailMatch[1].includes('@')) {
+        alert("Log in to process checkout.");
+        return;
+      }
+      const email = emailMatch[1];
+      setUserEmail(email)
+      const id = await getCustomerIDByEmail(email);
+      setCustomerID(id);
+    };
+    fetchCustomerID();
+  }, []);
+  
+ 
+
+  // Cart items
+  const fetchCartData = async () => {
+    if (!customerID) return;
+    const response = await fetch(`http://localhost:8080/cart/getCartForCustomer/${customerID}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (response.ok) {
+      const cartData = await response.json();
+      setCartItems(cartData || []);
+    } else {
+      console.error("Failed to fetch cart data.");
+    }
+  };
+  useEffect(() => {
+    fetchCartData();
+  }, [customerID]);
 
   // Handle payment method selection
   const handlePaymentMethodChange = (method) => {
@@ -51,11 +79,92 @@ function CheckoutPage() {
   const calculateTotal = () => {
     return cartItems.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
   };
+  
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
+    if (!paymentMethod) {
+      alert('Please select a payment method.');
+      return;
+    }
+  
+    // Credit/Debit Card format checks
+    if (paymentMethod === 'creditCard' || paymentMethod === 'debitCard') {
+      if (!formData.cardNumber || !formData.cardExpiry || !formData.cardCVV) {
+        alert('Please fill in all card details.');
+        return;
+      }
+  
+      // Validate card number (Luhn algorithm check for credit/debit card numbers)
+      const cardNumberRegex = /^\d{16}$/; // Assuming a 16-digit card number
+      if (!cardNumberRegex.test(formData.cardNumber)) {
+        alert('Please enter a valid card number (16 digits).');
+        return;
+      }
+  
+      // Validate card expiry (MM/YY format)
+      const cardExpiryRegex = /^(0[1-9]|1[0-2])\/\d{2}$/; // MM/YY format
+      if (!cardExpiryRegex.test(formData.cardExpiry)) {
+        alert('Please enter a valid expiry date (MM/YY).');
+        return;
+      }
+  
+      // Validate card CVV (3 digits)
+      const cardCVVRegex = /^\d{3}$/;
+      if (!cardCVVRegex.test(formData.cardCVV)) {
+        alert('Please enter a valid CVV (3 digits).');
+        return;
+      }
+    } 
+    // UPI format check
+    else if (paymentMethod === 'upi') {
+      if (!formData.upiId) {
+        alert('Please fill in your UPI ID.');
+        return;
+      }
+  
+      // Validate UPI ID format (example: username@upi)
+      const upiRegex = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9.-]+$/;
+      if (!upiRegex.test(formData.upiId)) {
+        alert('Please enter a valid UPI ID.');
+        return;
+      }
+    }
+    var currentTotal = calculateTotal()
+    currentTotal = parseInt(currentTotal, 10);
+    const message = {
+      'customer_id': customerID,
+      'payment_method': paymentMethod,
+      'total': currentTotal,
+    }
+    console.log(message);
+    const response = await fetch('http://localhost:8080/checkout/recordTransaction', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(message),
+    });
     alert(`Order submitted with ${paymentMethod} payment method.`);
+
+    const response2 = await fetch(`http://localhost:8080/cart/getCartID/${customerID}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    var data = await response2.json();
+    var cartID = data.cart_id
+    console.log(cartID)
+
+    const response3 = await fetch(`http://localhost:8080/cart/deleteCart/${cartID}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    });
+    window.location.href = `/${userEmail}`;
   };
 
   return (
@@ -68,14 +177,14 @@ function CheckoutPage() {
         <h2>Order Summary</h2>
         <div className="checkout_items">
           {cartItems.map((item) => (
-            <div key={item.id} className="checkout_item">
-              <span>{item.name} (x{item.quantity})</span>
-              <span>${(item.price * item.quantity).toFixed(2)}</span>
+            <div key={item.cart_product_id} className="checkout_item">
+              <span>{item.product_name} (x{item.quantity})</span>
+              <span>₹{(item.price * item.quantity).toFixed(2)}</span>
             </div>
           ))}
         </div>
         <div className="checkout_total">
-          <strong>Total: ${calculateTotal()}</strong>
+          <strong>Total: ₹{calculateTotal()}</strong>
         </div>
       </div>
 

@@ -184,3 +184,10 @@ type Category struct {
 	CategoryID   int    `json:"category_id"`
 	CategoryName string `json:"category_name"`
 }
+
+type Transaction struct {
+	TransactionID int    `json:"transaction_id"`
+	Total         int    `json:"total"`
+	PaymentMethod string `json:"payment_method"`
+	CustomerID    int    `json:"customer_id"`
+}

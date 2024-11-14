@@ -249,6 +249,7 @@ func GetCartID(w http.ResponseWriter, r *http.Request) {
 func DeleteCart(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	cartID, err := strconv.Atoi(vars["id"])
+	log.Print(cartID)
 	if err != nil {
 		http.Error(w, "Invalid cart ID", http.StatusBadRequest)
 		return
