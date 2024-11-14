@@ -8,8 +8,11 @@
     justify-content: center;
     position: relative;
     bottom:1vw;
+    
 }
-
+.linkHome{
+    text-decoration: none;
+}
 .iconImage {
     width: 5vw; /* Adjust size as needed */
     height: 5vw;
@@ -27,6 +30,7 @@
     color: #333; /* Dark text color */
     margin: 0;
     font-family:fantasy;
+    text-decoration: none;
  
 }
 

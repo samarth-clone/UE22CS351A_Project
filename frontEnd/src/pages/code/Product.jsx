@@ -67,9 +67,6 @@ function Product() {
 
     // Handle Add to Cart button click
     const handleAddToCart = async () => {
-        if (quantity === 0) {
-
-
             const url = window.location.href;
             const emailMatch = url.match(/\/([^/]+)\/product\//);
             const email = emailMatch[1];
@@ -129,19 +126,26 @@ function Product() {
                 }
             })
             if (response.ok){
+                console.log(response)
                 var data3 = await response.json()
-                
+                console.log(data3)
                 var checker = 0
-                for (let i = 0; data3.length; i++){
-                    if (data3[i].product_id == product.product_id){
-                        checker = 1
-                        console.log(data3[i].cart_product_id)
-                        alert("item in cart")
-                        return
+                if(data3){
+                    for (let i = 0; i<data3.length; i++){
+                        console.log("data item:",data3[i].product_id)
+                        console.log("url item:",product.product_id)
+                        var data_item = data3[i].product_id
+                        var url_item = product.product_id
+                        if (data_item == url_item){
+                            checker = 1
+                            console.log(data3[i].cart_product_id)
+                            alert("item in cart")
+                            return
+                        }
+                        console.log("type of checker:",checker)
                     }
                 }
                 
-                console.log("type of checker:",checker)
                 if (!checker){
                     var response = await fetch('http://localhost:8080/cart/addToCart',{
                         method: 'POST',
@@ -167,19 +171,9 @@ function Product() {
             }
             
 
-        }
     };
 
-    // Handle increment quantity
-    const incrementQuantity = async () => {
-        setQuantity(prevQuantity => prevQuantity + 1);
-        const response = await fetch('http://localhost:8080/cart/updateCartProductPlus/{id}')
-    };
 
-    // Handle decrement quantity
-    const decrementQuantity = () => {
-        setQuantity(prevQuantity => (prevQuantity > 1 ? prevQuantity - 1 : 0)); // Prevent quantity from going below 0
-    };
     return (
             <>
                 <TitleBar />
@@ -197,20 +191,8 @@ function Product() {
                             <span className="price">${product.price}</span>
                         </div>
 
-                        {/* Render Add to Cart button */}
+                        
                         <button className="product_add_to_cart_btn" onClick={handleAddToCart}>Add to Cart</button>
-
-                        {/* Quantity counter - displayed below Add to Cart button if quantity > 0 */}
-                        {quantity > 0 && (
-                            <>
-                                <div className="quantity_countera">
-                                    <button onClick={decrementQuantity} className="quantity_btna">-</button>
-                                    <span className="quantitya">{quantity}</span>
-                                    <button onClick={incrementQuantity} className="quantity_btna">+</button>
-                                </div>
-                                
-                            </>
-                        )}
 
                         <div className="product_description">
                             <h2>Product Details</h2>

@@ -41,7 +41,7 @@ export default function TitleBar() {
                 (
                     <>
                         <img className='iconImage' src={icon}></img>
-                        <h1>Boogs and Pajes</h1>
+                        
                         <Link to="/login" className="login">
                             Login
                         </Link>
@@ -53,7 +53,9 @@ export default function TitleBar() {
                 ) : (
                     <>
                        <img className='iconImage' src={icon}></img>
-                       <h1>Boogs and Pajes</h1>
+                       <Link to={username ? `/${username}` : '/'} className='linkHome'>
+                        <h1>Boogs and Pajes</h1>
+                        </Link>
                        <img className='profileIcon' src={profileicon}></img>
 
                     </>
