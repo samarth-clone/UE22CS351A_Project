@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, json } from 'react-router-dom';
 import '../styles/Product.css';
 import icon from '../../assets/icon.png';
 import ReviewList from '../../components/component/ReviwList.jsx';
@@ -74,89 +74,112 @@ function Product() {
             const emailMatch = url.match(/\/([^/]+)\/product\//);
             const email = emailMatch[1];
             const targetUrl = email.includes('@')
-            const customerID = await getCustomerIDByEmail(email);
             if (!targetUrl) {
                 alert("Log in to add to cart.");
                 return
             }
+            const customerID = await getCustomerIDByEmail(email);
+            console.log("Customer ID:",customerID)
+            var response = await fetch(`http://localhost:8080/cart/getCartID/${customerID}`,{
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            console.log(response)
+            if (!response.ok){
+                var response2 = await fetch('http://localhost:8080/cart/createCart',{
+                    method: 'POST',
+                    headers:{
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({'customer_id' : customerID})
+                })
+                if (!response2.ok){
+                    console.log('Error making new cart')
+                }
+                else{
+                    var data = await response2.json()
+                    var cart_id = data.cart_id
+                    console.log(cart_id)
+                    console.log('made new cart')
+                }
+
+            }
+            else{
+                var data = await response.json()
+                var cart_id = data.cart_id
+                console.log(cart_id)
+                console.log("cart exists")
+                
+                
+            }
             setQuantity(1);
-            var response = await awaitfetch(`http://localhost:8080/cart/getCartID/${customerID}`)
+            console.log(quantity)
+            const message = {
+                'vendor_product_id' : vendorProductID,
+                'quantity' : 1,
+                'cart_id' : cart_id
+            }
 
-
-
-
-
+            var response = await fetch(`http://localhost:8080/cart/getCartForCustomer/${customerID}`,{
+                method: 'GET',
+                headers:{
+                    'Content-Type': 'application/json',
+                }
+            })
+            if (response.ok){
+                var data3 = await response.json()
+                
+                var checker = 0
+                for (let i = 0; data3.length; i++){
+                    if (data3[i].product_id == product.product_id){
+                        checker = 1
+                        console.log(data3[i].cart_product_id)
+                        alert("item in cart")
+                        return
+                    }
+                }
+                
+                console.log("type of checker:",checker)
+                if (!checker){
+                    var response = await fetch('http://localhost:8080/cart/addToCart',{
+                        method: 'POST',
+                        headers:{
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(message)
+                    })
+                    if (response.ok){
+                        alert("added to cart successfully")
+                    }
+                    else{
+                        alert("error adding to cart")
+                    }
+                }
+                else{
+                    alert("item in cart")
+                    return
+                }
+            }
+            else{
+                console.log("there has been an error")
+            }
+            
 
         }
     };
 
     // Handle increment quantity
-    const incrementQuantity = () => {
+    const incrementQuantity = async () => {
         setQuantity(prevQuantity => prevQuantity + 1);
+        const response = await fetch('http://localhost:8080/cart/updateCartProductPlus/{id}')
     };
 
     // Handle decrement quantity
     const decrementQuantity = () => {
         setQuantity(prevQuantity => (prevQuantity > 1 ? prevQuantity - 1 : 0)); // Prevent quantity from going below 0
     };
-    const confirmAddToCart = async () => {
-        const url = window.location.href;
-        const emailMatch = url.match(/\/([^/]+)\/product\//);
-        const email = emailMatch[1];
-        const targetUrl = email.includes('@')
-        if (!targetUrl) {
-            alert("Log in to add to cart.");
-            return
-        }
-        const customerID = await getCustomerIDByEmail(email);
-        var message = {
-            vendor_product_id : vendorProductID,
-            cart_id: 1, //need to find,
-            quantity: quantity
-         }
-         useEffect(() => {
-            // Log initial message payload
-            console.log("Add to Cart - Initial message payload:", message);
-    
-            const addToCart = async () => {
-                console.log("Add to Cart - Starting fetch request...");
-    
-                try {
-                    const response = await fetch('http://localhost:8080/cart/addToCart', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(message),
-                    });
-    
-                    // Log the HTTP status code and response status
-                    console.log("Add to Cart - Response status:", response.status, response.statusText);
-    
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-    
-                    const data = await response.json();
-    
-                    // Log the data received from the server
-                    console.log("Add to Cart - Server response data:", data);
-                } catch (error) {
-                    // Log any errors caught during the fetch
-                    console.error("Add to Cart - Error occurred:", error);
-                }
-            };
-    
-            // Check for required data in message before sending request
-            if (message && Object.keys(message).length > 0) {
-                console.log("Add to Cart - Valid message, initiating request...");
-                addToCart();
-            } else {
-                console.warn("Add to Cart - Invalid or empty message object. Skipping request.");
-            }
-    
-        }, [message]);
-        }
     return (
             <>
                 <TitleBar />
@@ -185,7 +208,7 @@ function Product() {
                                     <span className="quantitya">{quantity}</span>
                                     <button onClick={incrementQuantity} className="quantity_btna">+</button>
                                 </div>
-                                <button className="confirmButton" onClick={confirmAddToCart}>Confirm</button>
+                                
                             </>
                         )}
 
