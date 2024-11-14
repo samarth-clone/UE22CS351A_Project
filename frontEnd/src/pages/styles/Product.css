@@ -7,11 +7,6 @@
     box-sizing: border-box;
   }
   
-  body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f6f6f6;
-    padding-top: 20px;
-  }
   
   /* Full-page layout */
   .product_page {

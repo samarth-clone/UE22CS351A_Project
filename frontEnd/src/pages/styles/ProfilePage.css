@@ -2,133 +2,171 @@
 
 /* Basic Reset */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f6f6f6;
-    padding-top: 20px;
-  }
-  
-  /* Profile Page container */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+
+/* Profile Page container */
+.profile_page {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  background: linear-gradient(to right, #f4c4f3, #fc8d7d); /* Retro gradient */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* User Information Section */
+.profile_info {
+  flex: 1;
+  background-color: #fff;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  border: 3px solid #ff77a9; /* Soft pink border */
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.logout_section {
+  position: relative;
+  top: 20vw;
+  left: 42vw;
+}
+
+.logout_button {
+  padding: 12px 20px;
+  background-color: #8a4fff; /* Soft purple background */
+  color: white;
+  border: 3px solid #ff77a9; /* Pink border */
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.logout_button:hover {
+  background-color: #ff77a9; /* Hover effect to pink */
+  transform: scale(1.1); /* Slight zoom effect on hover */
+}
+
+.profile_info h2 {
+  font-size: 32px;
+  font-weight: bold;
+  color: #111;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Add some shadow for retro effect */
+}
+
+.profile_input_group {
+  margin-bottom: 20px;
+}
+
+.profile_input_group label {
+  font-size: 18px;
+  color: #555;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.profile_input_group input,
+.profile_input_group textarea {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #8a4fff; /* Purple border */
+  border-radius: 6px;
+  font-size: 16px;
+  color: #333;
+  background-color: #f7f7f7; /* Light background */
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.profile_input_group textarea {
+  height: 120px;
+  resize: none;
+}
+
+.profile_save_btn {
+  padding: 12px 20px;
+  background-color: #8a4fff; /* Purple background */
+  color: white;
+  border: 3px solid #ff77a9; /* Pink border */
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.profile_save_btn:hover {
+  background-color: #ff77a9; /* Hover effect */
+  transform: scale(1.1); /* Slight zoom effect */
+}
+
+/* Transaction History Section */
+.transaction_history {
+  flex: 2;
+  background-color: #fff;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  border: 3px solid #ff77a9; /* Pink border */
+  font-family: 'Courier New', Courier, monospace;
+  margin-left: 20px;
+}
+
+.transaction_history h2 {
+  font-size: 32px;
+  font-weight: bold;
+  color: #111;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.transaction_table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.transaction_table th,
+.transaction_table td {
+  padding: 12px;
+  text-align: left;
+  border: 1px solid #ddd;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.transaction_table th {
+  background-color: #ff77a9; /* Light pink background for table headers */
+  color: white;
+}
+
+.transaction_table td {
+  background-color: #f7f7f7; /* Light background for table rows */
+}
+
+/* Error message */
+.error_message {
+  color: red;
+  font-size: 14px;
+  font-style: italic;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
   .profile_page {
-    display: flex;
-    justify-content: space-between;
-    padding: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
+    flex-direction: column;
   }
-  
-  /* User Information Section */
+
   .profile_info {
-    flex: 1;
-    background-color: #fff;
-    padding: 20px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+    margin-bottom: 30px;
   }
-  
-  .profile_info h2 {
-    font-size: 28px;
-    font-weight: bold;
-    color: #111;
-    margin-bottom: 20px;
-  }
-  
-  .profile_input_group {
-    margin-bottom: 20px;
-  }
-  
-  .profile_input_group label {
-    font-size: 16px;
-    color: #555;
-    display: block;
-    margin-bottom: 8px;
-  }
-  
-  .profile_input_group input,
-  .profile_input_group textarea {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-    color: #333;
-  }
-  
-  .profile_input_group textarea {
-    height: 120px;
-    resize: none;
-  }
-  
-  .profile_save_btn {
-    padding: 12px 20px;
-    background-color: #007600;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .profile_save_btn:hover {
-    background-color: #005f00;
-  }
-  
-  /* Transaction History Section */
+
   .transaction_history {
-    flex: 2;
-    background-color: #fff;
-    padding: 20px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    margin-left: 20px;
+    margin-left: 0;
   }
-  
-  .transaction_history h2 {
-    font-size: 28px;
-    font-weight: bold;
-    color: #111;
-    margin-bottom: 20px;
-  }
-  
-  .transaction_table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-  }
-  
-  .transaction_table th,
-  .transaction_table td {
-    padding: 12px;
-    text-align: left;
-    border: 1px solid #ddd;
-  }
-  
-  .transaction_table th {
-    background-color: #f1f1f1;
-  }
-  
-  .transaction_table td {
-    background-color: #fafafa;
-  }
-  
-  /* Responsive Design */
-  @media (max-width: 768px) {
-    .profile_page {
-      flex-direction: column;
-    }
-  
-    .profile_info {
-      margin-bottom: 30px;
-    }
-  
-    .transaction_history {
-      margin-left: 0;
-    }
-  }
-  
+}

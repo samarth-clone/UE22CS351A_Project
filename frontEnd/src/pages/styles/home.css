@@ -1,4 +1,36 @@
-.titleBar {
+/* Basic reset and container styling */
+  
+  
+  /* LED Background */
+  .led-background {
+    background: linear-gradient(45deg, rgba(0, 255, 204, 0.2), rgba(0, 204, 255, 0.1)); /* Gradient glow */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    
+    z-index: -1; /* Place behind the content */
+    background-image: radial-gradient(circle, rgba(0, 255, 204, 0.5) 1px, transparent 1px);
+    background-size: 30px 30px;
+    animation: ledPulse 2s infinite ease-in-out; /* LED pulse effect */
+    background-color: #222;
+  }
+  
+  /* LED Pulse Animation */
+  @keyframes ledPulse {
+    0% {
+      background-size: 30px 30px;
+    }
+    50% {
+      background-size: 40px 40px; /* Expands the grid to simulate LED glow */
+    }
+    100% {
+      background-size: 30px 30px;
+    }
+  }
+  
+  /* Title Bar and Other Styles */
+  .titleBar {
     display: flex;
     align-items: center;
     padding: 1.5vw 20px;
@@ -6,9 +38,9 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
     border-radius: 8px;
     justify-content: center;
-}
-
-.iconImage {
+  }
+  
+  .iconImage {
     width: 5vw; /* Adjust size as needed */
     height: 5vw;
     border-radius: 50%; /* Rounds image if it's a square */
@@ -16,51 +48,51 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     position: absolute;
     left: 2vw;
-
-}
-
-.titleBar h1 {
+  }
+  
+  .titleBar h1 {
     font-size: 3vw; /* Font size for title */
     font-weight: bold;
     color: #333; /* Dark text color */
     margin: 0;
-    font-family:fantasy;
- 
-}
-
-.login {
+    font-family: fantasy;
+  }
+  
+  .login {
     font-size: 1.5vw; /* Font size for title */
     font-weight: bold;
     color: #333; /* Dark text color */
     margin: 0;
-    font-family:fantasy;
+    font-family: fantasy;
     position: absolute;
-    right:3vw;
+    right: 3vw;
     text-decoration: none;
-}
-.login:hover {
+  }
+  .login:hover {
     text-decoration: underline;
     font-size: 1.6vw;
   }
-
-.signUp {
+  
+  .signUp {
     font-size: 1.5vw; /* Font size for title */
     font-weight: bold;
     color: #333; /* Dark text color */
     margin: 0;
-    font-family:fantasy;
+    font-family: fantasy;
     position: absolute;
-    right:10vw;
+    right: 10vw;
     text-decoration: none;
-}
-.signUp:hover {
+  }
+  .signUp:hover {
     text-decoration: underline;
     font-size: 1.6vw;
   }
-.items {
+  
+  .items {
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
     margin-left: 2.5vw;
     margin-right: 2.5vw;
-}
+  }
+  

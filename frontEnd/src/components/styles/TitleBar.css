@@ -2,91 +2,85 @@
     display: flex;
     align-items: center;
     padding: 1.5vw 20px;
-    background-color: #f8f9fa; /* Light background color */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    background-color: #121212; /* Dark background for a sleek techno look */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Subtle shadow for a techy effect */
     border-radius: 8px;
     justify-content: center;
     position: relative;
-    bottom:1vw;
-    
+    border: 2px solid #00ff99; /* Neon border for a futuristic feel */
+    color: #00ff99; /* Neon green text color */
+    font-family: 'Orbitron', sans-serif; /* Techno font */
+    text-shadow: 0 0 10px #00ff99, 0 0 20px #00ff99, 0 0 30px #00ff99; /* Glowing text effect */
 }
-.linkHome{
+
+.linkHome {
     text-decoration: none;
+    color: #00ff99; /* Neon green for home link */
+    font-size: 1.5vw;
 }
+
 .iconImage {
-    width: 5vw; /* Adjust size as needed */
+    width: 5vw;
     height: 5vw;
-    border-radius: 50%; /* Rounds image if it's a square */
-    object-fit: cover; /* Keeps the image proportions */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
     position: absolute;
     left: 2vw;
-
+    border: 2px solid #00ff99; /* Neon border for icons */
 }
 
 .titleBar h1 {
-    font-size: 3vw; /* Font size for title */
+    font-size: 3vw;
+    position: relative;
+    left:4vw;
     font-weight: bold;
-    color: #333; /* Dark text color */
+    color: #00ff99; /* Neon green title color */
     margin: 0;
-    font-family:fantasy;
+    font-family: 'Orbitron', sans-serif;
     text-decoration: none;
- 
+    text-shadow: 0 0 10px #00ff99, 0 0 20px #00ff99, 0 0 30px #00ff99;
 }
 
-.login {
-    font-size: 1.5vw; /* Font size for title */
+.login, .signUp {
+    font-size: 1.5vw;
     font-weight: bold;
-    color: #333; /* Dark text color */
+    color: #00ff99;
     margin: 0;
-    font-family:fantasy;
+    font-family: 'Orbitron', sans-serif;
     position: absolute;
-    right:3vw;
     text-decoration: none;
+    transition: all 0.3s ease;
 }
-.login:hover {
-    text-decoration: underline;
-    font-size: 1.6vw;
-  }
 
-.signUp {
-    font-size: 1.5vw; /* Font size for title */
-    font-weight: bold;
-    color: #333; /* Dark text color */
-    margin: 0;
-    font-family:fantasy;
-    position: absolute;
-    right:10vw;
-    text-decoration: none;
-}
-.signUp:hover {
+.login:hover, .signUp:hover {
     text-decoration: underline;
     font-size: 1.6vw;
-  }
+    color: #ff00ff; /* Neon pink hover color */
+}
+.cartIcon{
+    width: 5vw;
+    height: 5vw;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    position: relative;
+    left:25vw;
+    border: 2px solid #00ff99;
+}
 .profileIcon {
-    width: 5vw; /* Adjust size as needed */
+    width: 5vw;
     height: 5vw;
-    border-radius: 50%; 
-    object-fit: cover; 
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    position: absolute;
-    right: 2vw;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    position: relative;
+    left: 29vw;
+    border: 2px solid #00ff99; /* Neon border for profile and cart icons */
 }
-.cartIcon {
-    width: 5vw; /* Adjust size as needed */
-    height: 5vw;
-    border-radius: 50%; 
-    object-fit: cover; 
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    position: absolute;
-    right: 10vw;
-    bottom: 1vw;
-}
-.profileIcon:hover{
-    width: 5.5vw; /* Adjust size as needed */
+
+.profileIcon:hover, .cartIcon:hover {
+    width: 5.5vw;
     height: 5.5vw;
-}
-.cartIcon:hover{
-    width: 5.5vw; /* Adjust size as needed */
-    height: 5.5vw;
+    box-shadow: 0 0 15px #00ff99, 0 0 25px #00ff99; /* Glowing effect on hover */
 }

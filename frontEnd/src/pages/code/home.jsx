@@ -31,10 +31,8 @@ function Home() {
   }, []); // Empty dependency array, so this runs only once when the component mounts
 
   return (
-    <>
+    <div className = "led-background">
       <TitleBar></TitleBar>
-       
-
       <div className="items">
         {error ? (
           <div>{error}</div> // Show error message if there's an error
@@ -44,7 +42,7 @@ function Home() {
           ))
         )}       
     </div>
-    </>
+    </div>
   );
 }
 

@@ -3,35 +3,36 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content:space-evenly;
+  justify-content: space-evenly;
   overflow: hidden;
-  background-color: #f7f1e3; /* Creamy, warm background */
-  border: 1px solid #d4a373; /* Warm brown border */
+  background-color: #121212; /* Dark background for high contrast */
+  border: 2px solid #00ffcc; /* Neon cyan border for a techno touch */
   border-radius: 12px;
   padding: 20px;
   width: 20vw;
   height: 40vw;
   margin: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Soft shadow */
+  box-shadow: 0 4px 8px rgba(0, 255, 204, 0.3); /* Neon glow effect */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  font-family: 'Georgia', serif; /* Classic font for rustic feel */
+  font-family: 'Orbitron', sans-serif; /* Futuristic font */
 }
 
-/* Hover effect with a subtle shadow */
+/* Hover effect with a dynamic neon glow */
 .book-card:hover {
-  transform: translateY(-3px); /* Slight lift */
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Enhanced shadow */
+  transform: translateY(-5px); /* Slight lift */
+  box-shadow: 0 0 20px #00ffcc, 0 0 30px #ff0066; /* Neon glows */
 }
 
 /* Header with product title */
 .card-header h3 {
   margin-top: 1vw;
-  font-size: 150%;
-  height: 10vw;
-  color: #4e342e; /* Dark brown for rustic feel */
+  font-size: 1.5rem;
+  color: #00ffcc; /* Neon cyan for a futuristic feel */
   text-align: center;
   font-weight: 600;
-  font-family: 'Georgia', serif; /* Adds to the rustic look */
+  font-family: 'Orbitron', sans-serif; /* Techno font */
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 /* Body text styles */
@@ -41,22 +42,23 @@
 }
 
 .description {
-  font-size: 1.5vw;
-  color: #6d4c41; /* Medium brown */
+  font-size: 1.2vw;
+  color: #e0e0e0; /* Light grey for high-tech readability */
   line-height: 1.5;
-  font-family: 'Georgia', serif;
+  font-family: 'Roboto', sans-serif; /* Clean sans-serif for a sleek look */
 }
 
 .price {
   font-size: 1.25rem;
-  color: #3e2723; /* Darker brown for emphasis */
-  font-weight: 500;
+  color: #ff0066; /* Neon pink for emphasis */
+  font-weight: 600;
   position: relative;
+  font-family: 'Orbitron', sans-serif;
 }
 
 .rating {
   font-size: 1rem;
-  color: #5d4037; /* Lighter warm brown */
+  color: #ffcc00; /* Bright yellow for rating */
 }
 
 /* Button container */
@@ -65,40 +67,48 @@
   gap: 10px;
 }
 
-/* Button styles with rustic colors */
+/* Button styles with neon colors */
 button.buy-now {
-  background-color: #8d6e63; /* Warm, muted brown */
-  color: #ffffff; /* Light text */
-  border: 1px solid #6d4c41; /* Dark brown border */
+  background-color: #00ffcc; /* Neon cyan background */
+  color: #121212; /* Dark text for contrast */
+  border: 1px solid #ff0066; /* Neon pink border */
   border-radius: 8px;
   padding: 10px 20px;
   font-size: 1rem;
   cursor: pointer;
-  
-  
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  font-family: 'Orbitron', sans-serif;
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 button.buy-now:hover {
-  background-color: #5d4037; /* Darker rustic brown for hover */
-  transform: scale(1.05); /* Slightly larger on hover */
+  background-color: #ff0066; /* Neon pink on hover */
+  transform: scale(1.1); /* Slightly larger on hover */
+  box-shadow: 0 0 10px #ff0066; /* Glow effect */
 }
 
 /* Error and loading messages */
 .error-message, .loading-message {
   font-size: 1rem;
-  color: #c62828; /* Warm, rustic red for error */
+  color: #ff0044; /* Neon red for errors */
   text-align: center;
   margin-top: 20px;
 }
 
-
-
+/* Product image styling */
 .book-card .product-image {
-    width: 100%; /* Make the image full-width */
-    height: auto; /* Maintain aspect ratio */
-    max-height: 150px; /* Optional: set a max height */
-    object-fit: cover; /* Adjust how the image fits within the div */
-    border-bottom: 1px solid #ddd; /* Optional: add a border below the image */
-  }
-  
+  width: 100%;
+  height: auto;
+  max-height: 150px;
+  object-fit: cover;
+  border-bottom: 1px solid #333; /* Dark border under image */
+  transition: transform 0.3s ease;
+}
+
+.book-card .product-image:hover {
+  transform: scale(1.05); /* Slight zoom effect on hover */
+}
+
+/* Optional: Glowing border effect for the card */
+.book-card.glowing {
+  box-shadow: 0 0 20px #00ffcc, 0 0 40px #ff0066;
+}

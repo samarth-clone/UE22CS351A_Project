@@ -62,7 +62,9 @@ export default function TitleBar() {
                         <Link to={username ? `/${username}/cart` : '/cart'}>
                         <img className='cartIcon' src={carticon}></img>
                         </Link>
+                        <Link to={username ? `/${username}/profile` : '/profile'}>
                         <img className='profileIcon' src={profileicon}></img>
+                        </Link>
 
                     </>
                 )}
