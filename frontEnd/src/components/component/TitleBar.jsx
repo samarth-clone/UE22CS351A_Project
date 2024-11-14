@@ -1,16 +1,40 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom';
 import icon from '../../assets/icon.png';
 import profileicon from '../../assets/profileIcon.png';
 import '../styles/TitleBar.css'
 export default function TitleBar() {
-    const { username } = useParams();
+    var { username } = useParams();
     if (username){
         console.log("exists");
+        useEffect(() => {
+            fetch(`http://localhost:8080/customers/${username}`,
+            
+            {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                  }
+
+            }).then(response =>{
+                console.log("entered response")
+                console.log(response)
+                console.log(response.status != 200)
+                if (response.status != 200) {
+                    username = false
+                    window.location.href = `http://localhost:5173/`;
+                    console.log("USER DOES NOT EXIST")
+                    throw new Error("Failed to fetch product data");
+                  }
+        })
+        }
+        )
     }
     else{
         console.log("nope")
+        username = false
     }
+    console.log("here you are",username)
     return (
         <div className="titleBar">
             {!username ?

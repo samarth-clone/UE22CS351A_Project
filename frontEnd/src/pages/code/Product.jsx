@@ -55,7 +55,6 @@ function Product() {
           </div>
   
           <button className="product_add_to_cart_btn">Add to Cart</button>
-          <button className="product_buy_now_btn">Buy Now</button>
   
           <div className="product_shipping">{product.shipping}</div>
           

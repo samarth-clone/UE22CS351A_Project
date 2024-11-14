@@ -16,13 +16,14 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/:username?" element={<Home />} />
+        
         <Route path="/login" element={<Login />} />
         <Route path="/signUp" element={<SignUp />} />
-        <Route path="/:username?/product/:id" element={<Product />} />
+        <Route path="/:username?/product/:id?" element={<Product />} />
         <Route path="/:username?/profile" element={<ProfilePage />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/:username?/checkOut" element={<CheckoutPage />} />
+        <Route path="/:username?" element={<Home />} /> 
       </Routes>
     </Router>
   )

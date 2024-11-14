@@ -1,141 +1,148 @@
 /* cartPage.css */
 
 /* Basic reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f6f6f6;
-    padding-top: 20px;
-  }
-  
-  /* Main cart container */
-  .cart_page {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-  }
-  
-  .cart_page h1 {
-    font-size: 32px;
-    font-weight: bold;
-    color: #111;
-    margin-bottom: 20px;
-  }
-  
-  /* Cart items list */
-  .cart_items {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-  
-  /* Cart item layout */
-  .cart_item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #fff;
-    padding: 20px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+.cartTitle {
+  width: 100vw;
+  color: #a67f5b; /* Rustic leather color */
+  font-family: 'Playfair Display', serif; /* Classic, vintage-inspired serif font */
+  text-align: center;
+  text-shadow: 1px 1px 2px #4b3e2b;
+}
 
-  }
-  
-  .cart_item_image {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    border-radius: 8px;
-  }
-  
-  .cart_item_info {
-    flex: 2;
-    margin-left: 1vw;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .cart_item_quantity {
-    display: flex;
-    align-items: center;
-    gap: 1vw;
-    margin-right: 1vw;
-    font-size: 1.25vw;
-  }
-  
-  .quantity_btn {
-    padding: 1vw 1vw;
-    background-color: #007600;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .quantity_btn:hover {
-    background-color: #005f00;
-  }
-  
-  .cart_item_total {
-    font-weight: bold;
-    font-size: 1.25vw;
-    margin-right: 1vw;
-    position: relative;
-    top:.5vw
-  }
-  
-  .remove_item_btn {
-    padding: 10px;
-    background-color: #ff4d4d;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .remove_item_btn:hover {
-    background-color: #ff1a1a;
-  }
-  
-  /* Cart summary section */
-  .cart_summary {
-    margin-top: 30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .cart_total h2 {
-    font-size: 24px;
-    font-weight: bold;
-    color: #111;
-  }
-  
-  .checkout_btn {
-    padding: 14px 20px;
-    background-color: #007600;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    font-size: 18px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .checkout_btn:hover {
-    background-color: #005f00;
-  }
-  
-  /* Empty cart message */
-  .cart_items p {
-    font-size: 18px;
-    color: #555;
-  }
-  
+.cartBody {
+  max-width: 1200px;
+  position: relative;
+  left: 7vw;
+  color: #e0d5c2; /* Light, warm beige text */
+  background-color: #3b3128; /* Deep, weathered brown */
+  padding: 15px;
+}
+
+body {
+  font-family: 'Playfair Display', serif;
+  background-color: #2b241e; /* Dark, wood-like background */
+}
+
+/* Main cart container */
+.cart_page {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color:#3b3128;
+}
+
+
+
+/* Cart items list */
+.cart_items {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Cart item layout */
+.cart_item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #4d4238; /* Dark rustic brown */
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(80, 60, 40, 0.5); /* Subtle, worn shadow */
+  border-radius: 6px;
+  border: 1px solid #5b4a36;
+}
+
+.cart_item_image {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 6px;
+  filter: sepia(60%) contrast(1.1); /* Sepia for vintage tone */
+}
+
+.cart_item_info {
+  flex: 2;
+  margin-left: 1vw;
+  color: #d8c3a5;
+}
+
+.cart_item_quantity {
+  display: flex;
+  align-items: center;
+  gap: 1vw;
+  margin-right: 1vw;
+  font-size: 1.25vw;
+}
+
+.quantity_btn {
+  padding: 1vw;
+  background-color: #5b4a36; /* Leather-like color */
+  color: #e0d5c2;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.quantity_btn:hover {
+  background-color: #3d342b; /* Darker on hover */
+}
+
+.cart_item_total {
+  font-weight: bold;
+  font-size: 1.25vw;
+  margin-right: 1vw;
+  color: #d8c3a5;
+}
+
+.remove_item_btn {
+  padding: 10px;
+  background-color: #754f44; /* Weathered, reddish leather color */
+  color: #f4f4f4;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.remove_item_btn:hover {
+  background-color: #5a3f35; /* Darker red on hover */
+}
+
+/* Cart summary section */
+.cart_summary {
+  margin-top: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #e0d5c2;
+}
+
+.cart_total h2 {
+  font-size: 22px;
+  font-weight: bold;
+  color: #d8c3a5;
+  text-shadow: 1px 1px 3px #4b3e2b;
+}
+
+.checkout_btn {
+  padding: 14px 20px;
+  background-color: #5b4a36;
+  color: #e0d5c2;
+  border: none;
+  border-radius: 4px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.checkout_btn:hover {
+  background-color: #3d342b;
+}
+
+/* Empty cart message */
+.cart_items p {
+  font-size: 18px;
+  color: #c1b29f;
+  font-style: italic;
+}

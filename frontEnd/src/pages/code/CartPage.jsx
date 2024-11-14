@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import '../styles/CartPage.css'; // Import the CSS for the Cart page
-
+import CartItem from '../../components/component/CartItem';
+import TitleBar from '../../components/component/TitleBar.jsx';
 function CartPage() {
   // Example cart items (could be from a backend or context state)
   const [cartItems, setCartItems] = useState([
@@ -46,60 +47,35 @@ function CartPage() {
 
   return (
     <div className="cart_page">
-      <h1>Your Shopping Cart</h1>
+      <TitleBar className='cartTitle' />
+      <div className="cartBody">
+        <h1>Your Shopping Cart</h1>
 
-      <div className="cart_items">
-        {cartItems.length === 0 ? (
-          <p>Your cart is empty</p>
-        ) : (
-          cartItems.map((item) => (
-            <div className="cart_item" key={item.id}>
-              <img src={item.image} alt={item.name} className="cart_item_image" />
-              <div className="cart_item_info">
-                <h3>{item.name}</h3>
-                <p>${item.price.toFixed(2)}</p>
-              </div>
+        <div className="cart_items">
+          {cartItems.length === 0 ? (
+            <p>Your cart is empty</p>
+          ) : (
+            cartItems.map((item) => (
+              <CartItem
+                key={item.id}
+                item={item}
+                handleQuantityChange={handleQuantityChange}
+                handleRemoveItem={handleRemoveItem}
+              />
+            ))
+          )}
+        </div>
 
-              <div className="cart_item_quantity">
-                <button
-                  onClick={() => handleQuantityChange(item.id, Math.max(1, item.quantity - 1))}
-                  className="quantity_btn"
-                >
-                  -
-                </button>
-                <span>{item.quantity}</span>
-                <button
-                  onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
-                  className="quantity_btn"
-                >
-                  +
-                </button>
-              </div>
-
-              <div className="cart_item_total">
-                <p>${(item.price * item.quantity).toFixed(2)}</p>
-              </div>
-
-              <button
-                onClick={() => handleRemoveItem(item.id)}
-                className="remove_item_btn"
-              >
-                Remove
-              </button>
+        {cartItems.length > 0 && (
+          <div className="cart_summary">
+            <div className="cart_total">
+              <h2>Total: ${calculateTotal()}</h2>
             </div>
-          ))
+
+            <button className="checkout_btn">Proceed to Checkout</button>
+          </div>
         )}
       </div>
-
-      {cartItems.length > 0 && (
-        <div className="cart_summary">
-          <div className="cart_total">
-            <h2>Total: ${calculateTotal()}</h2>
-          </div>
-
-          <button className="checkout_btn">Proceed to Checkout</button>
-        </div>
-      )}
     </div>
   );
 }
