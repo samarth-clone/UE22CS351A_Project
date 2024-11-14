@@ -109,6 +109,14 @@ type Review struct {
 	OrderedProductID int    `json:"ordered_product_id"`
 	ProductName      string `json:"product_Name"`
 }
+type getReview struct {
+	ReviewID         int    `json:"review_id"`
+	Rating           int    `json:"rating"`
+	Comment          string `json:"comment,omitempty"`
+	CustomerName     string `json:"customer_name"`
+	OrderedProductID int    `json:"ordered_product_id"`
+	ProductName      string `json:"product_Name"`
+}
 
 type Courier struct {
 	CourierID int    `json:"courier_id"`

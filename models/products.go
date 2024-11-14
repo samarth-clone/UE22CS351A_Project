@@ -1,6 +1,8 @@
 package models
 
-import "database/sql"
+import (
+	"database/sql"
+)
 
 func GetAllProducts() ([]productCard, error) {
 	query := `SELECT 
@@ -62,26 +64,38 @@ func GetProductByID(productID int) (productCard, error) {
 	return product, nil
 }
 
-func GetReviewsByProductID(productID int) ([]Review, error) {
+func GetReviewsByProductID(productID int) ([]getReview, error) {
 	query := `
-		SELECT r.ReviewID, r.Rating, r.Comment, r.CustomerID, r.OrderedProductID, p.ProductName
-		FROM review r
-		JOIN orderedproduct op ON r.OrderedProductID = op.OrderedProductID
-		JOIN vendorproduct vp ON op.VendorProductID = vp.VendorProductID
-		JOIN product p ON vp.ProductID = p.ProductID
-		WHERE p.ProductID = ?;
+	SELECT 
+    r.ReviewID, 
+    r.Rating, 
+    r.Comment, 
+    CONCAT(c.FirstName, ' ', c.LastName) AS CustomerName, 
+    r.OrderedProductID, 
+    p.ProductName
+	FROM 
+		review r
+	JOIN 
+		orderedproduct op ON r.OrderedProductID = op.OrderedProductID
+	JOIN 
+		vendorproduct vp ON op.VendorProductID = vp.VendorProductID
+	JOIN 
+		product p ON vp.ProductID = p.ProductID
+	JOIN 
+		customer c ON r.CustomerID = c.CustomerID
+	WHERE 
+    p.ProductID = ? 
 	`
-
 	rows, err := db.Query(query, productID)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
 
-	var reviews []Review
+	var reviews []getReview
 	for rows.Next() {
-		var review Review
-		if err := rows.Scan(&review.ReviewID, &review.Rating, &review.Comment, &review.CustomerID, &review.OrderedProductID, &review.ProductName); err != nil {
+		var review getReview
+		if err := rows.Scan(&review.ReviewID, &review.Rating, &review.Comment, &review.CustomerName, &review.OrderedProductID, &review.ProductName); err != nil {
 			return nil, err
 		}
 		reviews = append(reviews, review)
