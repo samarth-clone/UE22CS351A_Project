@@ -3,12 +3,14 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content:space-evenly;
+  overflow: hidden;
   background-color: #f7f1e3; /* Creamy, warm background */
   border: 1px solid #d4a373; /* Warm brown border */
   border-radius: 12px;
   padding: 20px;
-  width: 300px;
+  width: 20vw;
+  height: 40vw;
   margin: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Soft shadow */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -23,9 +25,10 @@
 
 /* Header with product title */
 .card-header h3 {
-  font-size: 1.6rem;
+  margin-top: 1vw;
+  font-size: 150%;
+  height: 10vw;
   color: #4e342e; /* Dark brown for rustic feel */
-  margin-bottom: 10px;
   text-align: center;
   font-weight: 600;
   font-family: 'Georgia', serif; /* Adds to the rustic look */
@@ -38,9 +41,8 @@
 }
 
 .description {
-  font-size: 1rem;
+  font-size: 1.5vw;
   color: #6d4c41; /* Medium brown */
-  margin-bottom: 15px;
   line-height: 1.5;
   font-family: 'Georgia', serif;
 }
@@ -49,13 +51,12 @@
   font-size: 1.25rem;
   color: #3e2723; /* Darker brown for emphasis */
   font-weight: 500;
-  margin-bottom: 10px;
+  position: relative;
 }
 
 .rating {
   font-size: 1rem;
   color: #5d4037; /* Lighter warm brown */
-  margin-bottom: 20px;
 }
 
 /* Button container */
@@ -73,6 +74,7 @@ button.buy-now {
   padding: 10px 20px;
   font-size: 1rem;
   cursor: pointer;
+  
   
   transition: background-color 0.3s ease, transform 0.3s ease;
 }
