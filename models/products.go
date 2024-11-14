@@ -2,9 +2,10 @@ package models
 
 import (
 	"database/sql"
+	"log"
 )
 
-func GetAllProducts() ([]productCard, error) {
+func GetAllProducts() ([]ProductCard, error) {
 	query := `SELECT 
     p.ProductID, 
     p.ProductName, 
@@ -21,9 +22,9 @@ func GetAllProducts() ([]productCard, error) {
 	}
 	defer rows.Close()
 
-	var products []productCard
+	var products []ProductCard
 	for rows.Next() {
-		var product productCard
+		var product ProductCard
 		if err := rows.Scan(&product.ProductID, &product.ProductName, &product.Description, &product.Price); err != nil {
 			return nil, err
 		}
@@ -37,31 +38,34 @@ func GetAllProducts() ([]productCard, error) {
 	return products, nil
 }
 
-func GetProductByID(productID int) (productCard, error) {
+func GetProductByID(productID int) (ProductCard, int, error) {
 	query := `SELECT 
 		p.ProductID, 
 		p.ProductName, 
 		vp.Description, 
-		vp.Price
+		vp.Price,
+		vendorproductid
 	FROM 
 		product p
 	INNER JOIN 
 		vendorproduct vp ON p.ProductID = vp.ProductID
 	WHERE 
-		p.ProductID = ?;
+		p.ProductID = ?
+	;
 	`
 
 	row := db.QueryRow(query, productID)
-
-	var product productCard
-	if err := row.Scan(&product.ProductID, &product.ProductName, &product.Description, &product.Price); err != nil {
+	log.Print(row)
+	var VendorProductID int
+	var product ProductCard
+	if err := row.Scan(&product.ProductID, &product.ProductName, &product.Description, &product.Price, &VendorProductID); err != nil {
 		if err == sql.ErrNoRows {
-			return productCard{}, nil // or return an error indicating no product found
+			return ProductCard{}, 0, nil // or return an error indicating no product found
 		}
-		return productCard{}, err
+		return ProductCard{}, 0, err
 	}
 
-	return product, nil
+	return product, VendorProductID, nil
 }
 
 func GetReviewsByProductID(productID int) ([]getReview, error) {
@@ -120,4 +124,96 @@ func SetReview(review *Review) error {
 	}
 
 	return nil
+}
+
+func CreateCart(cart Cart) (int, error) {
+	result, err := db.Exec("INSERT INTO cart (CustomerID, DateCreated) VALUES (?, now())", cart.CustomerID)
+	if err != nil {
+		return 0, err
+	}
+	id, err := result.LastInsertId()
+	if err != nil {
+		return 0, err
+	}
+
+	return int(id), nil
+}
+
+// fetch('http://localhost:8080/cart/createCart', {
+// 	method: 'POST',
+// 	headers: {
+// 	  'Content-Type': 'application/json',
+// 	},
+// 	body: JSON.stringify({ customer_id: 1 }),
+//   })
+// 	.then(response => response.json())
+// 	.then(data => console.log(data))
+// 	.catch(error => console.error('Error:', error));
+
+func AddToCart(cartProduct *CartProduct) error {
+	query := `INSERT INTO cartproduct (CartID, VendorProductID, Quantity) VALUES (?, ?, ?);`
+	result, err := db.Exec(query, cartProduct.CartID, cartProduct.VendorProductID, cartProduct.Quantity)
+	if err != nil {
+		return err
+	}
+	_, err = result.LastInsertId()
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// fetch('http://localhost:8080/cart/addToCart', {
+// 	method: 'POST',
+// 	headers: {
+// 	  'Content-Type': 'application/json',
+// 	},
+// 	body: JSON.stringify({ cart_id: 1,
+// 		vendor_product_id: 1,
+// 		quantity: 1}),
+//   })
+// 	.then(response => response.json())
+// 	.then(data => console.log(data))
+// 	.catch(error => console.error('Error:', error));
+
+func GetCartForCustomer(customerID int) ([]ProductCart, error) {
+	query := `
+	SELECT 
+    p.ProductName,
+    cp.Quantity,
+    vp.Price,
+    p.ProductID,
+	vp.VendorProductID
+	FROM 
+    cart c
+	JOIN 
+    cartproduct cp ON c.CartID = cp.CartID
+	JOIN 
+    vendorproduct vp ON cp.VendorProductID = vp.VendorProductID
+	JOIN 
+    product p ON vp.ProductID = p.ProductID
+	WHERE 
+    c.CustomerID = ?;
+	`
+	rows, err := db.Query(query, customerID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var products []ProductCart
+	for rows.Next() {
+		var product ProductCart
+		if err := rows.Scan(&product.ProductName, &product.Quantity, &product.Price, &product.ProductID, &product.VendorProductID); err != nil {
+			return nil, err
+		}
+		products = append(products, product)
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return products, nil
 }

@@ -14,6 +14,7 @@ function Product() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [quantity, setQuantity] = useState(0); // Track quantity
+    const [vendorProductID, setVendorProductID] = useState(0);
 
     // Fetch product data from the server
     useEffect(() => {
@@ -32,7 +33,9 @@ function Product() {
                 }
 
                 const data = await response.json();
-                setProduct(data);
+                setProduct(data.product);
+                setVendorProductID(data.vendorProductID);
+                console.log("Hello",data);
             } catch (err) {
                 setError(err.message);
             } finally {

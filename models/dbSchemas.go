@@ -94,11 +94,18 @@ type Product struct {
 	ProductName string `json:"product_name"`
 	CategoryID  int    `json:"category_id"`
 }
-type productCard struct {
+type ProductCard struct {
 	ProductID   int     `json:"product_id"`
 	ProductName string  `json:"product_name"`
 	Description string  `json:"description"`
 	Price       float64 `json:"price"`
+}
+type ProductCart struct {
+	ProductID       int     `json:"product_id"`
+	ProductName     string  `json:"product_name"`
+	Price           float64 `json:"price"`
+	Quantity        int     `json:"quantity"`
+	VendorProductID int     `json:"vendor_product_id"`
 }
 
 type Review struct {

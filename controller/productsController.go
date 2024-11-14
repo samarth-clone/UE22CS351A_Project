@@ -29,14 +29,25 @@ func GetProductByID(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	product, err := models.GetProductByID(ProductID)
+	product, vendorproductID, err := models.GetProductByID(ProductID)
+	log.Println(product)
 	if err != nil {
-
 		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
 	}
 
+	// Create a response struct that contains both product and vendorproductID
+	response := struct {
+		Product         interface{} `json:"product"`
+		VendorProductID int         `json:"vendorProductID"`
+	}{
+		Product:         product,
+		VendorProductID: vendorproductID,
+	}
+
+	// Set the header and encode the response as JSON
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(product)
+	json.NewEncoder(w).Encode(response)
 }
 
 func GetProductReview(w http.ResponseWriter, r *http.Request) {
@@ -82,4 +93,66 @@ func SetProductReview(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusCreated)
+}
+
+func CreateCart(w http.ResponseWriter, r *http.Request) {
+	var cart models.Cart
+	err := json.NewDecoder(r.Body).Decode(&cart)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	log.Println(cart)
+
+	cartID, err := models.CreateCart(cart)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	// Prepare the response with the created CartID
+	response := map[string]int{"cart_id": cartID}
+
+	// Set the response header to application/json
+	w.Header().Set("Content-Type", "application/json")
+	// Respond with the CartID in the JSON body
+	if err := json.NewEncoder(w).Encode(response); err != nil {
+		http.Error(w, "Failed to encode response", http.StatusInternalServerError)
+	}
+}
+
+func AddToCart(w http.ResponseWriter, r *http.Request) {
+	var cartProduct models.CartProduct
+	err := json.NewDecoder(r.Body).Decode(&cartProduct)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	err = models.AddToCart(&cartProduct)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusCreated)
+}
+
+func GetCartForCustomer(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	customerID, err := strconv.Atoi(vars["id"])
+	if err != nil {
+		log.Print(err)
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	log.Print(customerID)
+	cartProducts, err := models.GetCartForCustomer(customerID)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(cartProducts)
 }

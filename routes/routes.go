@@ -30,4 +30,7 @@ func RegisterRouter(r *mux.Router) {
 	r.HandleFunc("/products/setReview/{id}", controller.SetProductReview).Methods("POST")
 	r.HandleFunc("/products", controller.GetProducts).Methods("GET")
 	r.HandleFunc("/products/{id}", controller.GetProductByID).Methods("GET")
+	r.HandleFunc("/cart/createCart", controller.CreateCart).Methods("POST")
+	r.HandleFunc("/cart/addToCart", controller.AddToCart).Methods("POST")
+	r.HandleFunc("/cart/getCartForCustomer/{id}", controller.GetCartForCustomer).Methods("GET")
 }

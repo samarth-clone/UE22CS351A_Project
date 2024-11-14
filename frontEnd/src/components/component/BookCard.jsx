@@ -5,6 +5,7 @@ import '../styles/BookCard.css';
 const BookCard = ({ id }) => {
   const [product, setProduct] = useState(null);
   const [averageRating, setAverageRating] = useState(null);
+  const [vendorProductID, setVendorProductID] = useState(0);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
@@ -21,7 +22,9 @@ const BookCard = ({ id }) => {
         return response.json();
       })
       .then(data => {
-        setProduct(data);
+        setProduct(data.product);
+        setVendorProductID(data.vendorProductID);
+        console.log(data);
       })
       .catch(error => {
         console.error("Error fetching product data:", error);
