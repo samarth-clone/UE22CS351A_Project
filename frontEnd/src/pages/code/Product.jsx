@@ -108,7 +108,7 @@ function Product() {
                             <span className="quantitya">{quantity}</span>
                             <button onClick={incrementQuantity} className="quantity_btna">+</button>
                         </div>
-                        <button className="confirmButton" onClick={confirmAddToCart}>Confirm</button>
+                        <button className="confirmButton" onClick={handleAddToCart}>Confirm</button>
                         </>
                     )}
 

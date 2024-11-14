@@ -19,7 +19,7 @@ const ReviewBar = ({productId, productName}) => {
             alert("Could not extract email from URL");
             return;
         }
-
+        
         if (rating === 0) {
             alert("Please provide a rating before submitting.");
             return;
@@ -28,9 +28,14 @@ const ReviewBar = ({productId, productName}) => {
             alert("Please write a comment before submitting.");
             return;
         }
-
-
+        
+        
         const email = emailMatch[1];
+        const targetUrl = email.includes('@') 
+        if (!targetUrl) {
+            alert("Log in to submit a review.");
+            return
+        }
         console.log("email", email);
         const customerID = await getCustomerIDByEmail(email);
 
@@ -51,6 +56,7 @@ const ReviewBar = ({productId, productName}) => {
 
         setComment('');
         setRating(0);
+        alert('Review submitted successfully!');
     };
 
     return (
