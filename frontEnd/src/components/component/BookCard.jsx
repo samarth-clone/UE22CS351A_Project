@@ -58,10 +58,7 @@ const BookCard = ({ id }) => {
       });
   }, [id]);
 
-  const handleBuyNow = (event) => {
-    event.stopPropagation(); // Prevent click from propagating to the card
-    navigate("/checkout");
-  };
+  
 
   if (error) return <div className="error-message">{error}</div>;
   if (!product) return <div className="loading-message">Loading...</div>;
@@ -69,8 +66,11 @@ const BookCard = ({ id }) => {
   return (
     <div 
       className="book-card" 
-      onClick={() => navigate(`/product/${id}`)} 
-      style={{ cursor: 'pointer' }}
+      onClick={() => {
+        const email = window.location.pathname.split('/')[1];  // Extract the email from the current URL
+        navigate(`/${email}/product/${id}`);  // Include the email in the new URL
+      }}
+            style={{ cursor: 'pointer' }}
     >
       {/* Add the generic image at the top */}
       <img 
@@ -87,7 +87,6 @@ const BookCard = ({ id }) => {
         <p className="rating">Average Rating: {averageRating || "Loading..."}</p>
       </div>
       <div className="button-container" style={{ display: 'flex', justifyContent: 'center' }}>
-          <button className="buy-now" onClick={handleBuyNow}>Buy Now</button>
       </div>
     </div>
   );

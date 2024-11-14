@@ -1,0 +1,95 @@
+/* General Review Bar Styles */
+.review-bar {
+    padding: 20px;
+    border: 1px solid #a27c4d; /* Warm rustic border */
+    border-radius: 8px;
+    width: 100%;
+    max-width: 600px;
+    margin: 20px auto;
+    background-color: #f4f1e0; /* Light beige background */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for rustic look */
+    font-family: 'Merriweather', serif; /* Elegant serif font */
+}
+
+/* Title of the review bar */
+.review-bar h3 {
+    margin-bottom: 15px;
+    font-size: 1.6em;
+    color: #3d2a1f; /* Deep brown color */
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Rating stars */
+.review-rating {
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.star {
+    font-size: 2em;
+    cursor: pointer;
+    color: #d4af7f; /* Light gold color for rustic stars */
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.star.filled {
+    color: #c58e3e; /* Darker gold for filled stars */
+    transform: scale(1.2); /* Slightly enlarge filled stars */
+}
+
+/* Hover effect for stars */
+.star:hover {
+    transform: scale(1.3); /* Enlarge on hover for interactivity */
+}
+
+/* Textarea for comment */
+.review-bar-comment {
+    width: 100%;
+    height: 120px;
+    padding: 12px;
+    border: 1px solid #a27c4d;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    font-size: 1.1em;
+    background-color: #fff8e1; /* Soft cream background */
+    color: #5a4a3d; /* Dark brown text */
+    resize: vertical;
+    font-family: 'Lora', serif;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Button to submit review */
+.submit-btn {
+    padding: 12px 25px;
+    background-color: #a27c4d;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.2em;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Button hover effect */
+.submit-btn:hover {
+    background-color: #c58e3e;
+    transform: translateY(-2px); /* Slight lift effect */
+}
+
+/* Responsive design for mobile */
+@media (max-width: 600px) {
+    .review-bar {
+        padding: 15px;
+    }
+
+    .review-comment {
+        height: 100px;
+    }
+
+    .submit-btn {
+        padding: 10px 20px;
+    }
+}

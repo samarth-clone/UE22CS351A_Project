@@ -78,6 +78,7 @@ function Product() {
     return (
         <>
             <TitleBar />
+            <TitleBar />
 
             <div className="product_page">
                 <div className="product_left">
@@ -114,7 +115,7 @@ function Product() {
                 </div>
             </div>
             <div className="review_bar">
-                <ReviewBar productId={product.product_id} />
+                <ReviewBar productId={product.product_id} productName={product.product_name} />
             </div>
             <div className="review_list">
                 <ReviewList productId={product.product_id} />

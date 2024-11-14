@@ -27,6 +27,7 @@ func RegisterRouter(r *mux.Router) {
 	r.HandleFunc("/vendor/product/delete", controller.DeleteVendorProduct).Methods("DELETE") // DELETE a vendor product
 
 	r.HandleFunc("/products/getReview/{id}", controller.GetProductReview).Methods("GET")
+	r.HandleFunc("/products/setReview/{id}", controller.SetProductReview).Methods("POST")
 	r.HandleFunc("/products", controller.GetProducts).Methods("GET")
 	r.HandleFunc("/products/{id}", controller.GetProductByID).Methods("GET")
 }

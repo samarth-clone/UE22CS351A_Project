@@ -107,3 +107,17 @@ func GetReviewsByProductID(productID int) ([]getReview, error) {
 
 	return reviews, nil
 }
+
+func SetReview(review *Review) error {
+	query := `INSERT INTO review (Rating, Comment, CustomerID, OrderedProductID) VALUES (?, ?, ?, ?);`
+	result, err := db.Exec(query, review.Rating, review.Comment, review.CustomerID, review.OrderedProductID)
+	if err != nil {
+		return err
+	}
+	_, err = result.LastInsertId()
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

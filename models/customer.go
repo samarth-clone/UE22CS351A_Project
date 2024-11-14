@@ -33,11 +33,11 @@ func GetAllCustomers() ([]Customer, error) {
 
 }
 
-func GetCustomerByEmail(email string) (Customer, error) {
+func GetCustomerByEmail(customerEmail string) (Customer, error) {
 	var customer Customer
 	var dob []uint8
 	query := "SELECT CustomerID, FirstName, LastName, DOB, Email, Contact FROM Customer WHERE Email = ?"
-	err := db.QueryRow(query, email).Scan(&customer.CustomerID, &customer.FirstName, &customer.LastName, &dob, &customer.Email, &customer.Contact)
+	err := db.QueryRow(query, customerEmail).Scan(&customer.CustomerID, &customer.FirstName, &customer.LastName, &dob, &customer.Email, &customer.Contact)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return customer, nil // Return an empty customer if no rows were found
